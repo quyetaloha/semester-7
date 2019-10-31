@@ -1,0 +1,2704 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<!-- saved from url=(0057)LAB_2.html -->
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LAB-20: Java Stream I/O</title>
+
+  
+  
+  <link rel="stylesheet" type="text/css" href="./LAB-20_%20Java%20Stream%20I_O_files/netbeans.css">
+
+  
+  <meta content="text/css" http-equiv="Content-Style-Type">
+
+  
+  <meta name="keywords" content="NetBeans, IDE, Java">
+
+  
+  <meta name="author" content="Pedro Corcuera">
+
+  
+  <style type="text/css">
+#search {
+	HEIGHT: 100%
+}
+#topmodule {
+	align: right
+}
+  </style>
+</head><body>
+<br>
+
+<h1 style="text-align: center;">Java Stream I/O</h1>
+
+<span style="font-weight: bold;"><br>
+Môn học: Lập trình mạng</span><br style="font-weight: bold;">
+
+<span style="font-weight: bold;">Giảng viên: TS. Nguyễn Trọng Khánh </span><br>
+
+<br>
+
+<div class="indent">
+<h3 class="tutorial">Resources<br>
+</h3>
+<ul>
+  <li><a href="http://java.sun.com/docs/books/tutorial/essential/io/index.html">Basic
+I/O tutorial</a> from java.sun.com </li>
+</ul>
+<br>
+<h3 class="tutorial"><a name="Tutorial_Exercises"></a>Exercises</h3>
+<ul>
+  <li><a href="LAB_2.html#Exercise_1">Exercise 1: Byte stream </a> </li>
+  <li><a href="LAB_2.html#Exercise_2">Exercise 2: Character stream </a>
+  </li>
+  <li><a href="LAB_2.html#Exercise_3">Exercise 3: Buffered stream </a>
+  </li>
+  <li><a href="LAB_2.html#Exercise_4">Exercise 4: Data stream </a> </li>
+  <li><a href="LAB_2.html#Exercise_5">Exercise 5: Object stream</a> </li>
+  <li><a href="LAB_2.html#Exercise_7">Exercise 6: File handling </a> </li>
+  <li><a href="LAB_2.html#Exercise_8">Exercise 7: Filtered stream </a>
+  </li>
+  <li><a href="LAB_2.html#Exercise_9">Exercise 8: Scanner and Formatter
+    </a> </li>
+  <li><a href="LAB_2.html#Homework">Luyện tập </a></li>
+</ul>
+</div>
+
+<!-- ===================================================================================== -->
+<h2><a name="Exercise_1"></a>Exercise 1: Byte stream <br>
+</h2>
+
+<div style="margin-left: 40px;"><br>
+Trong bài lab này, bạn sẽ làm quen với lớp FileInputStream thuộc luồng
+InputStream và FileOutputStream thuộc luồng OutputStream, để đọc và ghi
+file. <br>
+</div>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.1"></a>(1.1)
+Viết ứng dụng sử dụng FileInputStream và&nbsp; FileOutputStream<br>
+</h3>
+
+<div style="margin-left: 40px;"><br>
+0. Khởi động NetBeans IDE.<br>
+1. Tạo mới một project&nbsp; NetBeans <br>
+<ul>
+  <li>Chọn <span style="font-weight: bold;">File</span>-&gt;<span style="font-weight: bold;">New Project (Ctrl+Shift+N)</span>. <br>
+  </li>
+  <li>Cửa sổ <span style="font-weight: bold;">New Project</span> xuất
+hiện </li>
+  <li>Tại pane <span style="font-weight: bold;">Choose Project</span>,
+chon&nbsp; <span style="font-weight: bold;">Java </span>trong<span style="font-weight: bold;">&nbsp;</span> <span style="font-weight: bold;">Categories </span>và&nbsp; <span style="font-weight: bold;">Java Application</span> trong <span style="font-weight: bold;">Projects</span>. <br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Next</span>. </li>
+</ul>
+<ul>
+  <li>Tại pane <span style="font-weight: bold;">Name and Location</span>,
+với trường <span style="font-weight: bold;">Project Name</span>, gõ
+tên project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">FileInputOutputStream</span></span>. </li>
+  <li>Với trường <span style="font-weight: bold;">Create Main Class</span>,
+gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">FileInputOutputStream</span></span>.&nbsp;
+(Figure-1.10)<br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Finish</span>. </li>
+</ul>
+<img style="width: 729px; height: 505px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/1_byte1.png"><br>
+Figure-1.10: Create a new project<br>
+<ul>
+  <li>Project <span style="font-weight: bold;">FileInputOutputStream </span>và
+file <span style="font-weight: bold;">FileInputOutputStream.java </span>xuất
+hiện trong IDE NetBeans. </li>
+</ul>
+2. Sửa file&nbsp; <span style="font-weight: bold;">FileInputOutputStream.java
+</span>như đoạn Code-1.11.&nbsp; Chú ý nhưng dòng code in đậm. <br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.*;<br>
+      <br>
+public class FileInputOutputStream {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) throws
+IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; File inputFile = new
+File("farrago.txt");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; File outputFile = new
+File("outagain.txt");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">&nbsp;
+FileInputStream in = new FileInputStream(inputFile);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FileOutputStream out = new FileOutputStream(outputFile);</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int c;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while ((c = in.read()) !=
+-1){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println(c);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.write(c);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("FileInputStream is used to read a file and
+FileOutPutStream is used for writing.");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.close();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-1.11: FileInputOutputStream.java<br>
+<br>
+3. Tạo file input <span style="font-weight: bold;">farrago.txt</span>.<br>
+<ul>
+  <li>Click chuột phải vào project <span style="font-weight: bold;">FileInputOutputStream
+    </span>và chọn<span style="font-weight: bold;">&nbsp;</span> <span style="font-weight: bold;">New-&gt;Other</span>. </li>
+</ul>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/1_byte1.1.png"><br>
+<ul>
+  <li>Cửa sổ <span style="font-weight: bold;">New File</span> xuất
+hiện. </li>
+  <li>Chon <span style="font-weight: bold;">Other </span>trong <span style="font-weight: bold;">&nbsp;</span> <span style="font-weight: bold;">Categories </span>và <span style="font-weight: bold;">Empty File</span> trong <span style="font-weight: bold;">File Types</span>.&nbsp; (Figure-1.12) </li>
+  <li>Click Next.<br>
+  </li>
+</ul>
+<img style="width: 729px; height: 505px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/10_new1.png"><br>
+Figure-1.12: Create Empty File<br>
+<ul>
+  <li>Cửa sổ&nbsp; <span style="font-weight: bold;">New Empty File</span>
+xuất hiện. </li>
+  <li>Trong trường <span style="font-weight: bold;">File Name</span>,
+gõ <span style="color: rgb(255, 0, 0); font-weight: bold;">farrago.txt</span>.
+  </li>
+  <li>Click Finsh.<br>
+  </li>
+</ul>
+<img style="width: 729px; height: 505px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/10_new2.1.png"><br>
+<ul>
+  <li>File <span style="font-weight: bold;">farrago.txt</span> xuất
+hiện trong của sổ editor. </li>
+  <li>Cut và paste nội dung ở dưới InputFile-1.14 vào file.<br>
+  </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">So she
+went into the garden to
+cut a cabbage-leaf, to<br>
+make an apple-pie; and at the same time a great<br>
+she-bear, coming up the street, pops its head into the<br>
+shop. 'What! no soap?' So he died, and she very<br>
+imprudently married the barber; and there were<br>
+present the Picninnies, and the Joblillies, and the<br>
+Garyalies, and the grand Panjandrum himself, with the<br>
+little round button at top, and they all fell to playing<br>
+the game of catch as catch can, till the gun powder ran<br>
+out at the heels of their boots.<br>
+      <br>
+Samuel Foote 1720-1777<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+InputFile-1.14: farrago.txt<br>
+<br>
+4. Dịch và chạy project<br>
+<ul>
+  <li>Click Chuột phải vào project <span style="font-weight: bold;">FileInputOutputStream
+    </span>và chọn <span style="font-weight: bold;">Run</span>. </li>
+  <li>Xem kết quả xuất hiện trong cửa sổ <span style="font-weight: bold;">Output</span>. (Figure-1.15) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">...<br>
+55<br>
+55<br>
+55<br>
+10<br>
+FileInputStream is used to read a file and FileOutPutStream is used for
+writing.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-1.15: Kết quả chạy ứng dụng FileInputOutputStream<br>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/10_new3.png"><br>
+<span style="color: rgb(51, 51, 255); font-weight: bold;"></span><br>
+<br>
+5. <span style="font-weight: bold;">Thực hành</span>: Sửa&nbsp; <span style="font-weight: bold;">FileInputOutputStream.java</span><span style="font-weight: bold;"></span> để đọc file myowninputfile.txt và
+ghi nội dung ra file myownoutputfile.txt</div>
+
+<div style="margin-left: 40px;"><br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_2.html#Exercise_1">return
+to top of the exercise</a><br>
+<br>
+</div>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial">Summary<br>
+</h3>
+
+<div style="margin-left: 40px;"><br>
+Cách sử dụng lớp FileInputStream thuộc kiểu InputStream và lớp
+FileOutputStream thuộc kiểu OutputStream để đọc và ghi dữ liệu ra
+file.&nbsp; </div>
+
+<div style="margin-left: 40px;">
+<div style="margin-left: 40px;"><br>
+</div>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="LAB_2.html#Tutorial_Exercises">return
+to the top</a><br>
+</div>
+
+<br>
+
+<br>
+
+<h2><a name="Exercise_2"></a>Exercise 2: Character Stream<br>
+</h2>
+
+<p style="margin-left: 40px;">Trong bài thực hành này, chúng ta sẽ làm
+quen với lớp FileReader thuộc kiểu Reader và lớp FileWriter thuộc kiểu
+Writer để đọc và ghi file.&nbsp;</p>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.1"></a>(2.1)
+Viết ứng dụng sử dụng&nbsp; FileReader và FileWriter<br>
+</h3>
+
+<div style="margin-left: 40px;"><br>
+1. Tạo mới project NetBeans <br>
+<ul>
+  <li>Chọn <span style="font-weight: bold;">File</span>-&gt;<span style="font-weight: bold;">New Project (Ctrl+Shift+N)</span>. <br>
+  </li>
+  <li>Cửa sổ <span style="font-weight: bold;">New Project</span> xuất
+hiện </li>
+  <li>Tại pane <span style="font-weight: bold;">Choose Project</span>,
+chon&nbsp; <span style="font-weight: bold;">Java </span>trong<span style="font-weight: bold;">&nbsp;</span> <span style="font-weight: bold;">Categories </span>và&nbsp; <span style="font-weight: bold;">Java Application</span> trong <span style="font-weight: bold;">Projects</span>. <br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Next</span>. </li>
+</ul>
+<ul>
+  <li>Tại pane <span style="font-weight: bold;">Name and Location</span>,
+với trường <span style="font-weight: bold;">Project Name</span>, gõ
+tên project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">FileReaderWriter</span></span> </li>
+  <li>Với trường <span style="font-weight: bold;">Create Main Class</span>,
+gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">FileReaderWriter</span></span>.<br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Finish</span>. </li>
+</ul>
+<ul>
+  <li>Project <span style="font-weight: bold;">FileReaderWriter</span><span style="font-weight: bold;"> </span>và file <span style="font-weight: bold;">FileReaderWriter</span><span style="font-weight: bold;">.java </span>xuất hiện trong IDE NetBeans.
+  </li>
+</ul>
+2. Sửa file&nbsp; <span style="font-weight: bold;">FileReaderWriter</span><span style="font-weight: bold;">.java </span>như đoạn Code-2.11.&nbsp; Chú
+ý nhưng dòng code in đậm. <br>
+<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.*;<br>
+      <br>
+public class FileReaderWriter {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) throws
+IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; File inputFile = new
+File("farrago.txt");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; File outputFile = new
+File("outagain.txt");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">FileReader in = new FileReader(inputFile);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FileWriter out = new FileWriter(outputFile);</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int c;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while ((c = in.read()) !=
+-1){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println(c);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.write(c);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("FileReader is used to read a file and FileWriter is
+used for writing.");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.close();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-2.11: FileReaderWriter.java<br>
+<br>
+3. Tạo file input <span style="font-weight: bold;">farrago.txt</span>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">So she went into the garden to
+cut a cabbage-leaf, to<br>
+make an apple-pie; and at the same time a great<br>
+she-bear, coming up the street, pops its head into the<br>
+shop. 'What! no soap?' So he died, and she very<br>
+imprudently married the barber; and there were<br>
+present the Picninnies, and the Joblillies, and the<br>
+Garyalies, and the grand Panjandrum himself, with the<br>
+little round button at top, and they all fell to playing<br>
+the game of catch as catch can, till the gun powder ran<br>
+out at the heels of their boots.<br>
+      <br>
+Samuel Foote 1720-1777</td>
+    </tr>
+  </tbody>
+</table>
+File-2.12: farrago.txt<br>
+<br>
+<br>
+<br>
+4. Dịch và chạy project
+<ul>
+  <li>Click Chuột phải vào project <span style="font-weight: bold;">FileReaderWriter</span>
+và chọn <span style="font-weight: bold;">Run</span>. </li>
+  <li>Xem kết quả xuất hiện trong cửa sổ Output. (Figure-2.13) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">...<br>
+55<br>
+55<br>
+55<br>
+10<br>
+FileReader is used to read a file and FileWriter is used for writing.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-2.13: Result of running FileReaderWriter application<br>
+<span style="color: rgb(51, 51, 255); font-weight: bold;"><br>
+<br>
+</span>5. <span style="font-weight: bold;">Thực hành</span>: Sửa&nbsp;
+<span style="font-weight: bold;">FileReaderWriter.java</span> để đọc
+file myowninputfile.txt và ghi nội dung ra file myownoutputfile.txt<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_2.html#Exercise_2">return
+to top of the exercise</a><br>
+<br>
+</div>
+
+<h3 style="margin-left: 40px;" class="tutorial">Summary</h3>
+
+<p style="margin-left: 40px;">Cách sử dụng lớp FileReader thuộc kiểu
+Reader và lớp FileWriter thuộc kiểu Writer để đọc và ghi dữ liệu ra
+file. <br>
+<br>
+</p>
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="LAB_2.html#Tutorial_Exercises">return
+to the top</a><br>
+
+<br>
+
+<br>
+
+<br>
+
+<h2><a name="Exercise_3"></a>Exercise 3: Buffered Stream<br>
+</h2>
+
+<p style="margin-left: 40px;">Trong bài lab này, bạn sẽ làm quen với
+lớp BufferedReader&nbsp; và BufferedWriter để thao tác vào ra với buffer<br>
+</p>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.1"></a>(3.1)
+Viết ứng dụng sử dụng BufferedReader và BufferedWriter</h3>
+
+<br>
+
+<div style="margin-left: 40px;">1. Create a new NetBeans project<br>
+<ul>
+  <li>Tạo mới một project&nbsp; NetBeans <br>
+  </li>
+  <li>Chọn <span style="font-weight: bold;">File</span>-&gt;<span style="font-weight: bold;">New Project</span> (Ctrl+Shift+N). <br>
+  </li>
+  <li>Cửa sổ <span style="font-weight: bold;">New Project</span> xuất
+hiện</li>
+  <li>Tại pane <span style="font-weight: bold;">Choose Project</span>,
+chon&nbsp; <span style="font-weight: bold;">Java</span> trong&nbsp; <span style="font-weight: bold;">Categories</span> và <span style="font-weight: bold;">Java Application</span> trong <span style="font-weight: bold;">Projects</span>. <br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Next</span>.</li>
+  <li>Tại pane <span style="font-weight: bold;">Name and Location</span>,
+với trường <span style="font-weight: bold;">Project Name</span>, gõ
+tên project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">BufferedReaderWriter</span></span><span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);"></span></span>.</li>
+  <li>Với trường <span style="font-weight: bold;">Create Main Class</span>,
+gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">BufferedReaderWriter</span></span>.</li>
+  <li>Click <span style="font-weight: bold;">Finish</span>.<br>
+    <br>
+  </li>
+</ul>
+<img style="width: 729px; height: 505px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/10_new2.2.png"><br>
+<ul>
+  <li>Project <span style="font-weight: bold;">BufferedReaderWriter</span>
+và file <span style="font-weight: bold;">BufferedReaderWriter.java</span>
+xuất hiện trong IDE NetBeans. </li>
+</ul>
+2. Sửa file&nbsp; <span style="font-weight: bold;">BufferedReaderWriter.java</span>
+như đoạn Code-3.11.&nbsp; Chú ý nhưng dòng code in đậm. <br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">public class
+BufferedReaderWriter {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String args[]) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String a0, a1, a2;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (args.length != 3){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a0 =
+"words.txt";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a1 =
+"wordsout.txt";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a2 =
+"3";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a0 =
+args[0];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a1 =
+args[1];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; a2 =
+args[2];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+SimpleEncryption se = new SimpleEncryption();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+se.encrypt(a0, a1, Integer.parseInt(a2));</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* print content of
+encrypted file */<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("Displaying encrypted words from words.txt...");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">se.viewFileContent(a1);</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-3.11: BufferedReaderWriter.java<br>
+<ul>
+  <li>Chú ý có&nbsp; một số lỗi xuất hiện.<br>
+  </li>
+</ul>
+<img style="width: 893px; height: 744px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/10_new2.3.png"><br>
+<br>
+3. Viết lớp <span style="font-weight: bold;">SimpleEncryption.java</span>
+như&nbsp; Code-3.12. Nghiên cứu những dòng code in đậm.<br>
+<br>
+<img style="width: 729px; height: 505px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/10_new2.4.png"><br>
+<ul>
+  <li>Sửa code như sau.<br>
+  </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><span style="font-weight: bold;"></span>import
+java.io.*;<br>
+      <br>
+class SimpleEncryption {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp; void encrypt(String source, String dest, int shiftSize) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BufferedReader reader;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; BufferedWriter writer;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>
+&nbsp;<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+reader = new BufferedReader(new FileReader(source));</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+writer = new BufferedWriter(new FileWriter(dest));</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String line =
+reader.readLine();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int data;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (line != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for
+(int i = 0; i &lt; line.length(); i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+data =(int) line.charAt(i) + shiftSize;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+writer.write(data);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+writer.write((int)'\n');<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; line
+= reader.readLine();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reader.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; writer.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (IOException ie) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("Failed encrypting the file content.");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp; }<br>
+&nbsp;&nbsp; <br>
+&nbsp;&nbsp; void viewFileContent(String filename) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">BufferedReader
+reader;</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">reader = new BufferedReader(new
+FileReader(filename));</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String line =
+reader.readLine();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (line != null) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println(line);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; line
+= reader.readLine();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; reader.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (IOException ie) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("Failed to open file for reading.");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp; }<br>
+&nbsp;&nbsp; <br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-3.12: SimpleEncryption.java<br>
+<br>
+4. Tạo <span style="font-weight: bold;">words.txt</span>. (File-3.13)<br>
+<br>
+<img style="width: 893px; height: 744px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/10_new2.5.png"><br>
+<br>
+<img style="width: 729px; height: 505px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/10_new2.6.png"><br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">anatomy<br>
+animation<br>
+applet<br>
+application<br>
+argument<br>
+bolts<br>
+class<br>
+communicate<br>
+string<br>
+threads<br>
+tools<br>
+user<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+File-3.13: words.txt<br>
+<br>
+5. Tạo đối số để truyền theo dòng lệnh.<br>
+<ul>
+  <li>Click chuột phải lên project <span style="font-weight: bold;">BufferedReaderWriter
+    </span>chọn<span style="font-weight: bold;"> </span><span style="font-weight: bold;">Properties</span>. </li>
+</ul>
+<img style="width: 893px; height: 744px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/10_new2.7.png"><br>
+<ul>
+  <li>Cửa sổ <span style="font-weight: bold;">Project Properties</span>
+xuất hiện. </li>
+  <li>Chọn <span style="font-weight: bold;">Run</span>, trong
+trường&nbsp; <span style="font-weight: bold;">Arguments</span>, gõ <span style="font-weight: bold;">words.txt wordsout.txt 3</span>.
+(Figure-3.14)<br>
+  </li>
+</ul>
+<img style="width: 826px; height: 637px;" alt="" src="./LAB-20_%20Java%20Stream%20I_O_files/10_new2.png"><br>
+Figure-3.14: Provide command line arguments<br>
+<br>
+6.Dịch và chạy project<br>
+<ul>
+  <li>Click Chuột phải vào project <span style="font-weight: bold;">BufferedReaderWriter</span>
+và chọn <span style="font-weight: bold;">Run</span>. </li>
+  <li>Xem kết quả xuất hiện trong cửa sổ Output.(Figure-3.15) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Displaying encrypted words from
+words.txt...<br>
+dqdwrp|<br>
+dqlpdwlrq<br>
+dssohw<br>
+dssolfdwlrq<br>
+dujxphqw<br>
+erowv<br>
+fodvv<br>
+frppxqlfdwh<br>
+vwulqj<br>
+wkuhdgv<br>
+wrrov<br>
+xvhu<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-3.15: Result of running BufferedReaderWriter application<br>
+<br>
+<br>
+<br>
+</div>
+
+<div style="margin-left: 40px;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_2.html#Exercise_3">return
+to top of the exercise</a><br>
+<br>
+</div>
+
+<div style="margin-left: 40px;"><br>
+<br>
+</div>
+
+<h3 style="margin-left: 40px;" class="tutorial">Summary</h3>
+
+<div style="margin-left: 40px;"><br>
+Trong bài lab này, bạn đã làm quen với lớp BufferedReader&nbsp; và
+BufferedWriter để thao tác vào ra với buffer.<br>
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="LAB_2.html#Tutorial_Exercises">return
+to the top</a><br>
+<br>
+<br>
+</div>
+
+<br>
+
+<h2><a name="Exercise_4"></a>Exercise 4: Data Stream<br>
+</h2>
+
+<br>
+
+<div style="margin-left: 40px;">Trong bài lab này, bạn sẽ làm quen với
+lớp DataInputStream và DataOutputStream, để đọc và ghi các kiểu dữ liệu
+gốc.<br>
+<ol>
+  <li><a href="LAB_2.html#4.1">DataInputStream
+and DataOutputStream </a><br>
+  </li>
+  <li><a href="LAB_2.html#4.2">DataInput
+and DataOut</a><br>
+  </li>
+</ol>
+<br>
+</div>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="4.1"></a>(4.1)
+DataInputStream and DataOutputStream <br>
+</h3>
+
+<div style="margin-left: 40px;"><br>
+1. Tạo mới một project&nbsp; NetBeans <br>
+<ul>
+  <li>Chọn File-&gt;New Project (Ctrl+Shift+N). <br>
+  </li>
+  <li>Cửa sổ New Project xuất hiện</li>
+  <li>Tại pane Choose Project, chon&nbsp; Java trong&nbsp; Categories
+và&nbsp; Java Application trong Projects. <br>
+  </li>
+  <li>Click Next.</li>
+  <li>Tại pane Name and Location, với trường Project Name, gõ tên
+project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">DataInputOutputStream</span></span>.</li>
+  <li>Với trường Create Main Class, gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">DataInputOutputStream</span></span>.</li>
+  <li>Click Finish.</li>
+</ul>
+<ul>
+  <li>Project <span style="font-weight: bold;">DataInputOutputStream</span>
+và file <span style="font-weight: bold;">DataInputOutputStream.java</span>
+xuất hiện trong IDE NetBeans.&nbsp; </li>
+</ul>
+2. Sửa file&nbsp; <span style="font-weight: bold;">DataInputOutputStream</span>.<span style="font-weight: bold;">java</span> như đoạn Code-4.11.&nbsp; Chú ý
+nhưng dòng code in đậm.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.*;<br>
+      <br>
+public class DataInputOutputStream {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) throws
+IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // write the data out<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">DataOutputStream out = new
+DataOutputStream(new</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FileOutputStream("invoice"));</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double[] prices = { 19.99,
+9.99, 15.99, 3.99, 4.99 };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int[] units = { 12, 8, 13,
+29, 50 };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String[] descs = { "Java
+T-shirt",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Java Mug",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Duke Juggling Dolls",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Java Pin",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; "Java Key Chain" };<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for (int i = 0; i &lt;
+prices.length; i ++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.writeDouble(prices[i]);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.writeChar('\t');</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.writeInt(units[i]);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.writeChar('\t');</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.writeChars(descs[i]);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.writeChar('\n');</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // read it in again<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">DataInputStream in = new DataInputStream(new</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FileInputStream("invoice"));</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double price;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int unit;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; StringBuffer desc;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double total = 0.0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String lineSepString =
+System.getProperty("line.separator");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; char lineSep =
+lineSepString.charAt(lineSepString.length()-1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+while (true) {<br>
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+price = in.readDouble();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in.readChar();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // throws out the tab</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+unit = in.readInt();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in.readChar();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // throws out the tab</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+char chr;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+desc = new StringBuffer(20);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+while ((chr = in.readChar()) != lineSep)</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+desc.append(chr);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("You've ordered " +</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+unit + " units of " +</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+desc + " at $" + price);</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+total = total + unit * price;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (EOFException e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("For a
+TOTAL of: $" + total);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in.close();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-4.11: DataInputOutputStream.java<br>
+<br>
+5
+Dịch và chạy project
+<ul>
+  <li>Click Chuột phải vào project <span style="font-weight: bold;">DataInputOutputStream</span>
+và chọn Run. </li>
+  <li>Xem kết quả xuất hiện trong cửa sổ Output. (Figure-4.14 below) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">You've ordered 12 units of Java
+T-shirt at $19.99<br>
+You've ordered 8 units of Java Mug at $9.99<br>
+You've ordered 13 units of Duke Juggling Dolls at $15.99<br>
+You've ordered 29 units of Java Pin at $3.99<br>
+You've ordered 50 units of Java Key Chain at $4.99<br>
+For a TOTAL of: $892.8800000000001<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-4.14: Result of running DataInputOutputStream application
+<br>
+<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_2.html#Exercise_4">return
+to top of the exercise</a><br>
+<br>
+</div>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="4.2"></a>(4.2)
+DataInput and DataOutput <br>
+</h3>
+
+<div style="margin-left: 40px;"><br>
+Trong phần này, chúng ta sẽ luyện tập xử lý luồng thực hiện các thao
+tác kiểm tra dữ liệu.<br>
+<br>
+1. Tạo mới một project NetBeans<br>
+<ul>
+  <li>Chọn File-&gt;New Project (Ctrl+Shift+N). Cửa sổ New Project xuất
+hiện. </li>
+  <li>Tại pane Choose Project, chon&nbsp; Java trong&nbsp; Categories
+và&nbsp; Java Application trong Projects. Click Next. </li>
+  <li>Tại pane Name and Location, với trường Project Name, gõ tên
+project <span style="font-weight: bold;">CustomDataInputOutput</span>.&nbsp;
+  </li>
+  <li>Với trường Create Main Class, gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">CustomDataInputOutput</span></span>.&nbsp;
+    <br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Finish</span>. </li>
+</ul>
+<ul>
+  <li>Project <span style="font-weight: bold;">CustomDataInputOutput</span>
+và file <span style="font-weight: bold;">CustomDataInputOutput.java</span>
+xuất hiện trong IDE NetBeans.&nbsp; </li>
+</ul>
+2. Sửa file&nbsp; <span style="font-weight: bold;">CustomDataInputOutput.java</span>
+như đoạn Code-4.21.&nbsp; Chú ý nhưng dòng code in đậm.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.*;<br>
+      <br>
+public class CustomDataInputOutput {<br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) throws
+IOException {<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Adler32 inChecker = new
+Adler32();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Adler32 outChecker = new
+Adler32();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CheckedDataInput in = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CheckedDataOutput out = null;<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>
+&nbsp;&nbsp;<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in = new CheckedDataInput(</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; new
+DataInputStream(</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+new FileInputStream("farrago.txt")),</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; inChecker);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out = new CheckedDataOutput(</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; new
+DataOutputStream(</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+new FileOutputStream("outagain.txt")),</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+outChecker);</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch
+(FileNotFoundException e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.err.println("CheckedIOTest: " + e);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.exit(-1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (IOException e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.err.println("CheckedIOTest: " + e);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.exit(-1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; boolean EOF = false;<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (!EOF) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"> int c = in.readByte();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.write(c);</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+catch (EOFException e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+EOF = true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Input
+stream check sum: " +<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<span style="font-weight: bold;"> in.getChecksum().getValue());</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Output
+stream check sum: " +<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <span style="font-weight: bold;">out.getChecksum().getValue());</span><br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-4.21: CustomDataInputOutput.java<br>
+<br>
+3. Tạo file <span style="font-weight: bold;">CheckedDataInput.java</span>.&nbsp;
+(Code-4.22)<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.*;<br>
+      <br>
+public class CheckedDataInput {<br>
+      <br>
+&nbsp;&nbsp;&nbsp; private Checksum cksum;<br>
+&nbsp;&nbsp;&nbsp; private DataInput in;<br>
+      <br>
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp; public
+CheckedDataInput(DataInput in, Checksum cksum) {</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+this.cksum = cksum;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+this.in = in;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp; }</span><br>
+      <br>
+&nbsp;&nbsp;&nbsp; public byte readByte() throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; byte b = in.readByte();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">cksum.update(b);</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return b;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public void readFully(byte[] b) throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in.readFully(b, 0, b.length);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"> cksum.update(b, 0, b.length);</span><br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public void readFully(byte[] b, int off, int len)
+throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in.readFully(b, off, len);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">cksum.update(b, off, len);</span><br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public Checksum getChecksum() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return cksum;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-4.22: CheckedDataInput.java<br>
+<br>
+4. Tạo <span style="font-weight: bold;">CheckedDataOutput.java</span>.&nbsp;
+(Code-4.23)<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.*;<br>
+      <br>
+public class CheckedDataOutput {<br>
+      <br>
+&nbsp;&nbsp;&nbsp; private Checksum cksum;<br>
+&nbsp;&nbsp;&nbsp; private DataOutput out;<br>
+      <br>
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp; public
+CheckedDataOutput(DataOutput out, Checksum cksum) {</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+this.cksum = cksum;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+this.out = out;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp; }</span><br>
+      <br>
+&nbsp;&nbsp;&nbsp; public void write(int b) throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.write(b);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cksum.update(b);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public void write(byte[] b) throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.write(b, 0, b.length);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cksum.update(b, 0, b.length);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public void write(byte[] b, int off, int len) throws
+IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.write(b, off, len);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cksum.update(b, off, len);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public Checksum getChecksum() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return cksum;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-4.23: CheckedDataOutput.java<br>
+<br>
+5. Tạo <span style="font-weight: bold;">Checksum.java</span>.&nbsp;
+(Code-4.24)<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">public interface Checksum {<br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Updates the current checksum with the
+specified byte.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void update(int b);<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Updates the current checksum with the
+specified array of bytes.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void update(byte[] b, int off, int len);<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Returns the current checksum value.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public long getValue();<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Resets the checksum to its initial value.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void reset();<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-4.24: Checksum.java<br>
+<br>
+6. Tạo<span style="font-weight: bold;"> Adler32.java</span>.
+(Code-4.25)<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><span style="font-weight: bold;">public
+class Adler32 implements Checksum</span> {<br>
+&nbsp;&nbsp;&nbsp; private int value = 1;<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /*<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * BASE is the largest prime number smaller
+than 65536<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * NMAX is the largest n such that 255n(n+1)/2
++ (n+1)(BASE-1) &lt;= 2^32-1<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; private static final int BASE = 65521;<br>
+&nbsp;&nbsp;&nbsp; private static final int NMAX = 5552;<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Update current Adler-32 checksum given the
+specified byte.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void update(int b) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int s1 = value &amp; 0xffff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int s2 = (value &gt;&gt; 16)
+&amp; 0xffff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s1 += b &amp; 0xff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s2 += s1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value = ((s2 % BASE)
+&lt;&lt; 16) | (s1 % BASE);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Update current Adler-32 checksum given the
+specified byte array.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void update(byte[] b, int off, int len) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int s1 = value &amp; 0xffff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int s2 = (value &gt;&gt; 16)
+&amp; 0xffff;<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (len &gt; 0) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int
+k = len &lt; NMAX ? len : NMAX;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; len
+-= k;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+while (k-- &gt; 0) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+s1 += b[off++] &amp; 0xff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+s2 += s1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s1
+%= BASE;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s2
+%= BASE;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value = (s2 &lt;&lt; 16) |
+s1;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Reset Adler-32 checksum to initial value.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void reset() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value = 1;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Returns current checksum value.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public long getValue() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return (long)value &amp;
+0xffffffff;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-4.25: Adler32.java<br>
+<br>
+7. Tạo file input&nbsp; <span style="font-weight: bold;">farrago.txt</span>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">So she went into the garden to
+cut a cabbage-leaf, to<br>
+make an apple-pie; and at the same time a great<br>
+she-bear, coming up the street, pops its head into the<br>
+shop. 'What! no soap?' So he died, and she very<br>
+imprudently married the barber; and there were<br>
+present the Picninnies, and the Joblillies, and the<br>
+Garyalies, and the grand Panjandrum himself, with the<br>
+little round button at top, and they all fell to playing<br>
+the game of catch as catch can, till the gun powder ran<br>
+out at the heels of their boots.<br>
+      <br>
+Samuel Foote 1720-1777</td>
+    </tr>
+  </tbody>
+</table>
+File-2.12: farrago.txt<br>
+<br>
+8. Dịch và chạy project<br>
+<ul>
+  <li>Click Chuột phải vào project <span style="font-weight: bold;">CustomDataInputOutput</span>
+và chọn Run. </li>
+  <li>Xem kết quả xuất hiện trong cửa sổ Output.Build and run the
+project. (Figure-4.14) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Input stream check sum: 736868089<br>
+Output stream check sum: 736868089<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-4.14: Result <br>
+<br>
+<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_2.html#Exercise_4">return
+to top of the exercise</a><br>
+<br>
+</div>
+
+<h3 style="margin-left: 40px;" class="tutorial">Summary</h3>
+
+<div style="margin-left: 40px;"><br>
+Trong bài lab này, bạn đã làm quen với lớp DataInputStream và
+DataOutputStream, để đọc và ghi các kiểu dữ liệu gốc.<br>
+<br>
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="LAB_2.html#Tutorial_Exercises">return
+to the top</a><br>
+</div>
+
+<div style="margin-left: 40px;"><br>
+</div>
+
+<h2><a name="Exercise_5"></a>Exercise 5: Object Stream<br>
+</h2>
+
+<span style="text-decoration: underline;"><span style="font-weight: bold;"><br>
+</span></span>
+<div style="margin-left: 40px;">Trong bài lab này, bạn sẽ làm quen với
+lớp ObjectInputStream và ObjectOutputStream, để đọc và ghi các đối
+tượng.<br>
+<br>
+</div>
+
+<span style="text-decoration: underline;"><span style="font-weight: bold;"><br>
+</span></span>
+<h3 style="margin-left: 40px;" class="tutorial"><a name="5.1"></a>(5.1)
+Viết ứng dụng sử dụng ObjectInputStream và ObjectOutputStream</h3>
+
+<div style="margin-left: 40px;"><br>
+1. Tạo mới một project&nbsp; NetBeans<br>
+<ul>
+  <li>Chọn File-&gt;New Project (Ctrl+Shift+N). Cửa sổ New Project xuất
+hiện. </li>
+  <li>Tại pane Choose Project, chon&nbsp; Java trong&nbsp; Categories
+và&nbsp; Java Application trong Projects. Click Next. </li>
+  <li>Tại pane Name and Location, với trường Project Name, gõ tên
+project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">ObjectInputOutputStream</span></span>.&nbsp;
+  </li>
+  <li>Với trường Create Main Class, gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">ObjectInputOutputStream</span></span>.<br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Finish</span>. </li>
+</ul>
+<ul>
+  <li>Project <span style="font-weight: bold;">ObjectInputOutputStream</span>
+và file <span style="font-weight: bold;">ObjectInputOutputStream.java</span>
+xuất hiện trong IDE NetBeans.&nbsp;</li>
+</ul>
+2. Sửa file&nbsp; DataInputOutputStream.java như đoạn Code-5.11.&nbsp;
+Chú ý nhưng dòng code in đậm.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.*;<br>
+      <br>
+public class ObjectInputOutputStream {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Card3 card = new Card3(12,
+Card3.SPADES);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Card to
+write is: " + card);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"> FileOutputStream out = new
+FileOutputStream("card.out");</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ObjectOutputStream oos = new ObjectOutputStream(out);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+oos.writeObject(card);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+oos.flush();</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (Exception e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("Problem serializing: " + e);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>
+&nbsp;&nbsp;<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FileInputStream in = new FileInputStream("card.out");</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ObjectInputStream ois = new ObjectInputStream(in);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+card = (Card3)(ois.readObject());</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (Exception e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("Problem serializing: " + e);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Card
+read is: " + card);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-5.11: ObjectInputOutputStream.java<br>
+<br>
+3. Tạo lớp&nbsp; <span style="font-weight: bold;">Card3.java</span>
+như dưới Code-5.12.&nbsp; Nghiên cứu phần in đậm<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><span style="font-weight: bold;"></span>import
+java.io.Serializable;<br>
+      <br>
+      <span style="font-weight: bold;">public class Card3 implements
+Serializable</span> {<br>
+&nbsp;&nbsp;&nbsp; private int suit = UNASSIGNED;<br>
+&nbsp;&nbsp;&nbsp; private int number = UNASSIGNED;<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public final static int UNASSIGNED = -1;<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public final static int DIAMONDS = 1;<br>
+&nbsp;&nbsp;&nbsp; public final static int CLUBS = 2;<br>
+&nbsp;&nbsp;&nbsp; public final static int HEARTS = 3;<br>
+&nbsp;&nbsp;&nbsp; public final static int SPADES = 4;<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public final static int ACE = 1;<br>
+&nbsp;&nbsp;&nbsp; public final static int KING = 13;<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public Card3(int number, int suit) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (isValidNumber(number)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+this.number = number;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//Error<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (isValidSuit(suit)) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+this.suit = suit;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+//Error<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public int getSuit() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return suit;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public int getNumber() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return number;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public static boolean isValidNumber(int number) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (number &gt;= ACE
+&amp;&amp; number &lt;= KING) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return false;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; public static boolean isValidSuit(int suit) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (suit &gt;= DIAMONDS
+&amp;&amp; suit &lt;= SPADES) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return false;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public boolean equals(Object obj) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (obj instanceof Card3) {<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; Card3 card = (Card3)obj;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if
+(card.getNumber() == this.number &amp;&amp; card.getSuit() ==
+this.suit) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return true;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }
+else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return false;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } else {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+return false;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; public int hashCode() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return number * suit;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; public String toString() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return
+numberToString(this.number) + " of "<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
++ suitToString(this.suit);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public static String numberToString(int number) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String result = "";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; switch (number) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+ACE: result =&nbsp; "Ace"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+2: result = "Two"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+3: result = "Three"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+4: result = "Four"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+5: result = "Five"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+6: result = "Six"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+7: result = "Seven"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+8: result = "Eight"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+9: result = "Nine"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+10: result = "Ten"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+11: result = "Jack"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+12: result = "Queen"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+KING: result = "King"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+UNASSIGNED: result = "Invalid Number"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return result;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public static String suitToString(int suit) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String result = "";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; switch (suit) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+DIAMONDS: result = "Diamonds"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+CLUBS: result = "Clubs"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+HEARTS: result = "Hearts"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+SPADES: result = "Spades"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; case
+UNASSIGNED: result = "Invalid Suit"; break;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return result;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-5.12: Card3.java<br>
+<br>
+4. Dịch và chạy project<br>
+<ul>
+  <li>Click Chuột phải vào project <span style="font-weight: bold;">ObjectInputOutputStream</span>
+và chọn Run. </li>
+  <li>Xem kết quả xuất hiện trong cửa sổ Output. </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Card to write is: Queen of Spades<br>
+Card read is: Queen of Spades<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-5.15: Result <br>
+<br>
+<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;<a href="LAB_2.html#Exercise_5">
+return to top of the exercise</a><br>
+</div>
+
+<br>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial">Summary</h3>
+
+<br>
+
+<div style="margin-left: 40px;">Trong bài lab này, bạn đã được&nbsp;
+làm quen với lớp ObjectInputStream và ObjectOutputStream, để đọc và ghi
+các đối tượng.<br>
+</div>
+
+<br>
+
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="LAB_2.html#Tutorial_Exercises">return
+to the top</a><br>
+
+<br>
+
+<br>
+
+<h2><a name="Exercise_7"></a>Exercise 6: File and Directory Handling<br>
+</h2>
+
+<br>
+
+<div style="margin-left: 40px;">Trong bài lab này, bạn sẽ làm quen với
+lớp File để thực hiên một số thao tác liên quan đến file và thư mục.<br>
+</div>
+
+<ul>
+
+  <ol>
+    <li><a href="LAB_2.html#7.1">File
+handling</a><br>
+    </li>
+    <li><a href="LAB_2.html#7.2">Directory
+handling</a> </li>
+    <li><a href="LAB_2.html#7.3">Random
+access file handling</a><br>
+    </li>
+  </ol>
+</ul>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="7.1"></a>(6.1)
+File handling<br>
+</h3>
+
+<div style="margin-left: 40px;">1. Tạo mới một project&nbsp; NetBeans<br>
+<ul>
+  <li>Chọn <span style="font-weight: bold;">File</span>-&gt;<span style="font-weight: bold;">New Project</span> (Ctrl+Shift+N). Cửa sổ <span style="font-weight: bold;">New Project</span> xuất hiện. </li>
+  <li>Tại pane Choose Project, chon&nbsp; Java trong&nbsp; Categories
+và&nbsp; Java Application trong Projects. Click Next. </li>
+  <li>Tại pane Name and Location, với trường Project Name, gõ tên
+project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">FileInfo</span></span>. </li>
+  <li>Với trường Create Main Class, gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">FileInfo</span></span>.<br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Finish</span>. </li>
+</ul>
+<ul>
+  <li>Project <span style="font-weight: bold;">FileInfo</span> và file
+    <span style="font-weight: bold;">FileInfo.java</span> xuất hiện
+trong IDE NetBeans.&nbsp; </li>
+</ul>
+2. Sửa file&nbsp; <span style="font-weight: bold;">FileInfo.java
+</span> như đoạn Code-6.11.&nbsp; Chú ý nhưng dòng code in đậm.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.File;<br>
+import java.io.IOException;<br>
+      <br>
+public class FileInfo {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // The first command line
+argument needs to be provided<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String fileName = args[0];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; File fn = new File(fileName);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fn.createNewFile();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (IOException e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Name: "
++ fn.getName());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Check if the file exists
+using exists() method<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (fn.exists()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println(fileName + " does exist.");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (fn.canRead()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println(fileName&nbsp; + " is readable.");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(fileName
++ " is " + fn.length() + " bytes long.");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(fileName
++ " is last modifed at " +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+new java.util.Date(fn.lastModified())) ;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (fn.canWrite()) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println(fileName&nbsp; + " is writable.");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println(fileName&nbsp; + " is not writable.");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-6.11: FileInfo.java<br>
+<br>
+3. Tạo đối số để truyền theo dòng lệnh.<br>
+<ul>
+  <li>Click chuột phải lên project <span style="font-weight: bold;">FileInfo</span>
+chọn <span style="font-weight: bold;">Properties</span>. </li>
+  <li>Cửa sổ <span style="font-weight: bold;">Project Properties</span>
+xuất hiện. </li>
+  <li>Chọn Run, trong trường&nbsp; Arguments, gõ <span style="font-weight: bold;">dummyname</span>.<br>
+  </li>
+</ul>
+4. Dịch và chạy project<br>
+<ul>
+  <li>Click Chuột phải vào project <span style="font-weight: bold;">FileInfo</span>
+và chọn Run. </li>
+  <li>Xem kết quả xuất hiện trong cửa sổ Output (Figure-6.12). </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Name: dummyname<br>
+dummyname does exist.<br>
+dummyname is readable.<br>
+dummyname is 0 bytes long.<br>
+dummyname is last modifed at Sat Feb 24 15:36:28 EST 2007<br>
+dummyname is writable.<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-6.12: Result of running UnFileInfo application<br>
+<br>
+<br>
+<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_2.html#Exercise_7">return
+to top of the exercise</a><br>
+</div>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="7.2"></a>(6.2)
+Directory handling<br>
+</h3>
+
+<br>
+
+<p style="margin-left: 40px;">1. Tạo mới một project&nbsp; NetBeans<br>
+</p>
+
+<ul style="margin-left: 40px;">
+
+  <li>Tại pane Choose Project, chon&nbsp; Java trong&nbsp; Categories
+và&nbsp; Java Application trong Projects. Click Next. </li>
+  <li>Tại pane Name and Location, với trường Project Name, gõ tên
+project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">DirectoryInfo</span></span>. </li>
+  <li>Với trường Create Main Class, gõ&nbsp;<span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">DirectoryInfo</span></span>.&nbsp;
+    <br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Finish</span>. </li>
+</ul>
+
+<ul style="margin-left: 40px;">
+
+  <li>Project <span style="font-weight: bold;">DirectoryInfo</span> và
+file <span style="font-weight: bold;">DirectoryInfo.java</span> xuất
+hiện trong IDE NetBeans.&nbsp;<span style="font-weight: bold;"></span> </li>
+</ul>
+
+<div style="margin-left: 40px;">2. Sửa file&nbsp; <span style="font-weight: bold;">DirectoryInfo.java</span><span style="font-weight: bold;">
+</span> như đoạn Code-6.21.&nbsp; Chú ý nhưng dòng code in đậm. <br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.File;<br>
+      <br>
+public class DirectoryInfo {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Create a directory<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Creating
+temp directory...");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String fileName = "temp";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"> File fn = new File(fileName);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fn.mkdir();</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Create sub directories
+under the temp directory<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; File subdir1 = new File(fn,
+"subdir1");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; subdir1.mkdir();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; File subdir2 = new File(fn,
+"subdir2");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; subdir2.mkdir();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Check if it is a file or
+directory using isFile() method<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(fileName
++ " is a " +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">&nbsp; (fn.isFile()? "file."
+:"directory."));&nbsp;&nbsp; </span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"> if (fn.isDirectory()) {</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">String content[] = fn.list();</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("The content of this directory:");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; for
+(int i = 0; i &lt; content.length; i++) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println(content[i]);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Delete a directory<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println(fileName +<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+(fn.exists()? " exists": " does not exist"));<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Deleting
+temp directory...");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;"> fn.delete();</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-6.21: DirectoryInfo.java<br>
+</div>
+
+<div style="margin-left: 40px;"><br>
+3 Build and run the project<br>
+</div>
+
+<ul style="margin-left: 40px;">
+
+  <li>Right click <span style="font-weight: bold;">DirectoryInfo </span>project
+and select <span style="font-weight: bold;">Run</span>. </li>
+  <li>Observe the result in the <span style="font-weight: bold;">Output
+    </span>window. (Figure-6.22) </li>
+</ul>
+
+<div style="margin-left: 40px;">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Creating temp directory...<br>
+temp is a directory.<br>
+The content of this directory:<br>
+subdir1<br>
+subdir2<br>
+temp exists<br>
+Deleting temp directory...<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-6.22: Result <br>
+</div>
+
+<br>
+
+<br>
+
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_2.html#Exercise_7">return
+to top of the exercise</a><br>
+
+<br>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="7.3"></a>(6.3)
+Random access file handling<br>
+</h3>
+
+<p style="margin-left: 40px;">1. Tạo mới một project&nbsp; NetBeans</p>
+
+<ul style="margin-left: 40px;">
+
+  <li>Tại pane Choose Project, chon&nbsp; Java trong&nbsp; Categories
+và&nbsp; Java Application trong Projects. Click Next. </li>
+  <li>Tại pane Name and Location, với trường Project Name, gõ tên
+project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">RandomAccessFileHandling</span></span>
+  </li>
+  <li>Với trường Create Main Class, gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">RandomAccessFileHandling</span></span>.&nbsp;
+    <br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Finish</span>. </li>
+</ul>
+
+<ul style="margin-left: 40px;">
+
+  <li>Project <span style="font-weight: bold;">RandomAccessFileHandling</span>
+và file <span style="font-weight: bold;">RandomAccessFileHandling.java</span><span style="font-weight: bold;"></span> xuất hiện trong IDE NetBeans.&nbsp;
+  </li>
+</ul>
+
+<div style="margin-left: 40px;">2. Sửa file&nbsp; <span style="font-weight: bold;">RandomAccessFileHandling.java</span><span style="font-weight: bold;"></span><span style="font-weight: bold;">
+</span> như đoạn Code-6.31.&nbsp; Chú ý nhưng dòng code in đậm. <br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.IOException;<br>
+import java.io.RandomAccessFile;<br>
+      <br>
+public class RandomAccessFileHandling {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+RandomAccessFile raf = new RandomAccessFile("test.txt", "rw");</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+raf.writeInt(10);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+raf.writeInt(43);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+raf.writeInt(88);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+raf.writeInt(455);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// change the 3rd integer from 88 to 99</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+raf.seek((3 - 1) * 4);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+raf.writeInt(99);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+raf.seek(0); // go to the first integer</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+int i = raf.readInt();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+while (i != -1) {</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println(i);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+i = raf.readInt();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+raf.close();</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (IOException e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-6.31: RandomAccessFileHandling.java<br>
+</div>
+
+<div style="margin-left: 40px;"><br>
+<br>
+<br>
+<br>
+3 Dịch và chạy project
+</div>
+
+<ul style="margin-left: 40px;">
+
+  <li>Click Chuột phải vào project <span style="font-weight: bold;">RandomAccessFileHandling</span>
+và chọn Run.&nbsp; </li>
+  <li>Xem kết quả xuất hiện trong cửa sổ Output (Figure-6.32).</li>
+</ul>
+
+<div style="margin-left: 40px;">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">10<br>
+43<br>
+99<br>
+455<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-6.32: Result <br>
+</div>
+
+<br>
+
+<div style="margin-left: 40px;"><br>
+<br>
+</div>
+
+&nbsp;<br>
+
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="LAB_2.html#Exercise_7">return
+to top of the exercise</a><br>
+
+<h3 style="margin-left: 40px;" class="tutorial">Summary</h3>
+
+<div style="margin-left: 40px;"><br>
+Trong bài lab này, bạn đã làm quen với lớp File để thực hiên một số
+thao tác liên quan đến file và thư mục.<br>
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="LAB_2.html#Tutorial_Exercises">return
+to the top</a><br>
+<br>
+<br>
+</div>
+
+<br>
+
+<h2><a name="Exercise_8"></a>Exercise 7: Filter Streams<br>
+</h2>
+
+<br>
+
+<div style="margin-left: 40px;">Trong bài lab này chúng ta sẽ làm quen
+với các lớp FilterInputStream và FilterOutputStream.<br>
+</div>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial">(7.1) Create custom
+stream class that extends Filter streams<br>
+</h3>
+
+<div style="margin-left: 40px;">1. Tạo mới một project&nbsp; NetBeans<br>
+<ul>
+  <li>Chọn <span style="font-weight: bold;">File</span>-&gt;<span style="font-weight: bold;">New Project</span> (Ctrl+Shift+N). Cửa sổ <span style="font-weight: bold;">New Project</span> xuất hiện. </li>
+  <li>Tại pane Choose Project, chon&nbsp; Java trong&nbsp; Categories
+và&nbsp; Java Application trong Projects. Click Next. </li>
+  <li>Tại pane Name and Location, với trường Project Name, gõ tên
+project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">FilterInputOutputStream</span></span>
+  </li>
+  <li>Với trường Create Main Class, gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">FilterInputOutputStream</span></span>.
+  </li>
+  <li>Click <span style="font-weight: bold;">Finish</span>. </li>
+</ul>
+<ul>
+  <li>Project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">FilterInputOutputStream</span></span>
+và file <span style="font-weight: bold;">FilterInputOutputStream</span><span style="font-weight: bold;">.</span><span style="font-weight: bold;">java</span>
+xuất hiện trong IDE NetBeans.&nbsp; </li>
+</ul>
+2. Sửa file&nbsp; <span style="font-weight: bold;">FilterInputOutputStream</span><span style="font-weight: bold;">.</span><span style="font-weight: bold;">java</span><span style="font-weight: bold;">
+</span> như đoạn Code-7.11.&nbsp; Chú ý nhưng dòng code in đậm.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.*;<br>
+      <br>
+public class FilterInputOutputStream {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) throws
+IOException {<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Adler32 inChecker = new Adler32();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Adler32 outChecker = new Adler32();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CheckedInputStream in = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CheckedOutputStream out = null;<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="font-weight: bold;">&nbsp;&nbsp; in = new CheckedInputStream(</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; new
+FileInputStream("farrago.txt"),</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; inChecker);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out = new CheckedOutputStream(</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; new
+FileOutputStream("outagain.txt"),</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; outChecker);</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (FileNotFoundException e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.err.println("CheckedIOTest: " + e);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.exit(-1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch (IOException e) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.err.println("CheckedIOTest: " + e);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.exit(-1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int c;<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while ((c = in.read()) != -1)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.write(c);<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Input stream
+check sum: " +<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+inChecker.getValue());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Output stream
+check sum: " +<br>
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;
+outChecker.getValue());<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; in.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.close();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-7.11: FilterInputOutputStream.java<br>
+<br>
+3. Tạo file CheckedInputStream.java. (Code-7.12 below)<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.FilterInputStream;<br>
+import java.io.InputStream;<br>
+import java.io.IOException;<br>
+      <br>
+// Custom InputStream<br>
+      <span style="font-weight: bold;">public class CheckedInputStream
+extends FilterInputStream {</span><br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; private Checksum cksum;<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public CheckedInputStream(InputStream in, Checksum
+cksum) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; super(in);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.cksum = cksum;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public int read() throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int b = in.read();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (b != -1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cksum.update(b);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return b;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public int read(byte[] b) throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int len;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; len = in.read(b, 0,
+b.length);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (len != -1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cksum.update(b, 0, len);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return len;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public int read(byte[] b, int off, int len) throws
+IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; len = in.read(b, off, len);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (len != -1) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+cksum.update(b, off, len);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return len;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public Checksum getChecksum() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return cksum;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-7.12: CheckedInputStream.java<br>
+<br>
+4. Tạo CheckedOutputStream.java. (Code-7.13 below)<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.*;<br>
+      <br>
+// Custom OutputStream<br>
+      <span style="font-weight: bold;">public class CheckedOutputStream
+extends FilterOutputStream {</span><br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; private Checksum cksum;<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public CheckedOutputStream(OutputStream out,
+Checksum cksum) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; super(out);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.cksum = cksum;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public void write(int b) throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.write(b);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cksum.update(b);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public void write(byte[] b) throws IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.write(b, 0, b.length);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cksum.update(b, 0, b.length);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public void write(byte[] b, int off, int len) throws
+IOException {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out.write(b, off, len);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; cksum.update(b, off, len);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public Checksum getChecksum() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return cksum;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-7.13: CheckedOutputStream.java<br>
+<br>
+5. Tạo file <span style="font-weight: bold;">Checksum.java</span>.
+(Figure-8.14 below)<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">public interface Checksum {<br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Updates the current checksum with the
+specified byte.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void update(int b);<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Updates the current checksum with the
+specified array of bytes.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void update(byte[] b, int off, int len);<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Returns the current checksum value.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public long getValue();<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Resets the checksum to its initial value.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void reset();<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-7.14: Checksum.java<br>
+<br>
+6. Tạo file <span style="font-weight: bold;">Adler32.java</span>.&nbsp;
+(Code-7.15 below)<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">public class Adler32 implements
+Checksum {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; private int value = 1;<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /*<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * BASE is the largest prime number smaller
+than 65536<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * NMAX is the largest n such that 255n(n+1)/2
++ (n+1)(BASE-1) &lt;= 2^32-1<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; private static final int BASE = 65521;<br>
+&nbsp;&nbsp;&nbsp; private static final int NMAX = 5552;<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Update current Adler-32 checksum given the
+specified byte.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void update(int b) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int s1 = value &amp; 0xffff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int s2 = (value &gt;&gt; 16)
+&amp; 0xffff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s1 += b &amp; 0xff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s2 += s1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value = ((s2 % BASE)
+&lt;&lt; 16) | (s1 % BASE);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Update current Adler-32 checksum given the
+specified byte array.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void update(byte[] b, int off, int len) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int s1 = value &amp; 0xffff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int s2 = (value &gt;&gt; 16)
+&amp; 0xffff;<br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; while (len &gt; 0) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; int
+k = len &lt; NMAX ? len : NMAX;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; len
+-= k;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+while (k-- &gt; 0) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+s1 += b[off++] &amp; 0xff;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+s2 += s1;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s1
+%= BASE;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; s2
+%= BASE;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value = (s2 &lt;&lt; 16) |
+s1;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Reset Adler-32 checksum to initial value.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public void reset() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; value = 1;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; /**<br>
+&nbsp;&nbsp;&nbsp;&nbsp; * Returns current checksum value.<br>
+&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+&nbsp;&nbsp;&nbsp; public long getValue() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return (long)value &amp;
+0xffffffff;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-7.15: Checksum.java<br>
+<br>
+7. Tạo file input <span style="font-weight: bold;">farrago.txt</span>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">So she went into the garden to
+cut a cabbage-leaf, to<br>
+make an apple-pie; and at the same time a great<br>
+she-bear, coming up the street, pops its head into the<br>
+shop. 'What! no soap?' So he died, and she very<br>
+imprudently married the barber; and there were<br>
+present the Picninnies, and the Joblillies, and the<br>
+Garyalies, and the grand Panjandrum himself, with the<br>
+little round button at top, and they all fell to playing<br>
+the game of catch as catch can, till the gun powder ran<br>
+out at the heels of their boots.<br>
+      <br>
+Samuel Foote 1720-1777</td>
+    </tr>
+  </tbody>
+</table>
+File-2.12: farrago.txt<br>
+<br>
+&nbsp;8. Dịch và chạy project<br>
+<ul>
+  <li>Click Chuột phải vào project <span style="font-weight: bold;">FilterInputOutputStream</span>
+và chọn Run.&nbsp; </li>
+  <li>Xem kết quả xuất hiện trong cửa sổ Output. (Figure-7.16 below) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Input stream check sum: 736868089<br>
+Output stream check sum: 736868089<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-7.16: Result <br>
+<br>
+<br>
+<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_2.html#Exercise_8">return
+to top of the exercise</a><br>
+</div>
+
+<br>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial">Summary</h3>
+
+<br>
+
+<div style="margin-left: 40px;">Trong bài lab này chúng ta sẽ làm quen
+với các lớp FilterInputStream và FilterOutputStream.<br>
+</div>
+
+<br>
+
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="LAB_2.html#Tutorial_Exercises">return
+to the top</a>
+<h2><a name="Exercise_9"></a>Exercise 8: Scanner and Formatter<br>
+</h2>
+
+<br>
+
+<div style="margin-left: 40px;">Trong phần này chúng ta sẽ luyện tập
+vói lớp Scanner và Formatter&nbsp; </div>
+
+<ul>
+
+  <ol>
+    <li><a href="LAB_2.html#9.1">Scanner</a> </li>
+    <li><a href="LAB_2.html#9.2">Formatter</a><br>
+    </li>
+  </ol>
+</ul>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="9.1"></a>(8.1)
+Scanner class<br>
+</h3>
+
+<div style="margin-left: 40px;">1. Tạo mới một project&nbsp; NetBeans<br>
+<ul>
+  <li>Chọn File-&gt;New Project (Ctrl+Shift+N). Cửa sổ New Project xuất
+hiện.</li>
+  <li>Tại pane Choose Project, chon&nbsp; Java trong&nbsp; Categories
+và&nbsp; Java Application trong Projects. Click Next.</li>
+  <li>Tại pane Name and Location, với trường Project Name, gõ tên
+project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">ScannerClass</span></span></li>
+  <li>Với trường Create Main Class, gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">ScannerClass</span></span>..</li>
+  <li>Click Finish.</li>
+</ul>
+<ul>
+  <li>Project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">ScannerClass</span></span> và file <span style="font-weight: bold;">ScannerClass</span>.java xuất hiện trong
+IDE NetBeans. </li>
+</ul>
+2. Sửa file&nbsp; <span style="font-weight: bold;">ScannerClass</span>.java
+như đoạn Code-8.11.&nbsp; Chú ý nhưng dòng code in đậm.<br>
+<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.*;<br>
+import java.util.*;<br>
+      <br>
+public class ScannerClass {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) throws
+IOException {<br>
+      <br>
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+Scanner s =</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+new Scanner(new BufferedReader(new FileReader("usnumbers.txt")));</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+s.useLocale(Locale.US);</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; double sum = 0;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;<span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+while (s.hasNext()) {</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+sum += s.nextDouble();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+s.close();</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("Sum of all numbers = " + sum);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-8.11: ScannerClass.java<br>
+<br>
+3. Tạo file input&nbsp; <span style="font-weight: bold;">usnumbers.txt</span>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">8.5<br>
+32,767<br>
+3.14159<br>
+1,000,000.1<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+File-9.12: usnumbers.txt<br>
+4. Dịch và chạy project<br>
+<ul>
+  <li>Click Chuột phải vào project <span style="font-weight: bold;">ScannerClass</span>
+và chọn Run. </li>
+  <li>Xem kết quả xuất hiện trong cửa sổ Output (Figure-8.12).</li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Sum of all numbers =
+1032778.74159<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-8.12: Result <br>
+<br>
+<br>
+<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_2.html#Exercise_9">return
+to top of the exercise</a><br>
+</div>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="9.2"></a>(8.2)
+Format class<br>
+</h3>
+
+<div style="margin-left: 40px;">&nbsp;1. Tạo mới một project&nbsp;
+NetBeans<br>
+<ul>
+  <li>Chọn File-&gt;New Project (Ctrl+Shift+N). Cửa sổ New Project xuất
+hiện.</li>
+</ul>
+<ul>
+  <li>Tại pane Choose Project, chon&nbsp; Java trong&nbsp; Categories
+và&nbsp; Java Application trong Projects. Click Next.</li>
+  <li>Tại pane Name and Location, với trường Project Name, gõ tên
+project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">FormatClass</span></span><span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);"></span></span></li>
+  <li>Với trường Create Main Class, gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">FormatClass</span></span>.</li>
+  <li>Click Finish.</li>
+</ul>
+<ul>
+  <li>Project <span style="font-weight: bold;">FormatClass</span> và
+file <span style="font-weight: bold;">FormatClass.java</span> xuất
+hiện trong IDE NetBeans. </li>
+</ul>
+<br>
+2. Sửa file&nbsp; <span style="font-weight: bold;">FormatClass.java</span>
+như đoạn Code-8.21.&nbsp; Chú ý nhưng dòng code in đậm.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">public class FormatClass {<br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.format("%f,
+%1$+020.10f %n", Math.PI);<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-8.21: FormatClass.java<br>
+</div>
+
+<div style="margin-left: 40px;">3. Dịch và chạy project<br>
+<ul>
+  <li>Click Chuột phải vào project <span style="font-weight: bold;">FormatClass</span>
+và chọn Run.</li>
+  <li>Xem kết quả xuất hiện trong cửa sổ Output (Figure-8.22).</li>
+</ul>
+</div>
+
+<br>
+
+<div style="margin-left: 40px;">
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">3.141593, +00000003.1415926536 <br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-8.22: Result <br>
+</div>
+
+<br>
+
+<div style="margin-left: 40px;"><br>
+<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_2.html#Exercise_9">return
+to top of the exercise</a><br>
+</div>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial">Summary</h3>
+
+<br>
+
+<div style="margin-left: 40px;">Trong phần này chúng ta đã&nbsp; luyện
+tập với lớp Scanner và Formatter&nbsp;
+</div>
+
+<br>
+
+<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href="LAB_2.html#Tutorial_Exercises">return
+to the top</a><br>
+
+<br>
+
+<br>
+
+<h2><a name="Homework"></a>Luyện tập<br>
+</h2>
+
+<br>
+
+<div style="margin-left: 40px;"><span style="font-weight: bold;">1</span>.&nbsp;<span style="font-weight: bold;"> Viết chương trình kiểm tra nội dung 2 file
+text có giống nhau hay không? Tên file nhập vào từ bàn phím.</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">2.&nbsp; Viết chương trình tạo file
+text out.txt nếu file chưa tồn tại, sau đó sinh 100 số nguyên ngẫu
+nhiên và ghi xuống file, các số nguyên cách nhau bởi một khoảng trống.</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">3.&nbsp; Viết chương trình thêm 100 số
+nguyên ngẫu nhiên vào một file text đã tồn tại, các số nguyên cách nhau
+bởi một ký tự trống.</span><br style="font-weight: bold;">
+<span style="font-weight: bold;">4.&nbsp; Viết chương trình tạo một
+file nhị phân out.dat và ghi một lượng ngẫu nhiên các số nguyên ngẫu
+nhiên xuống file theo kiểu nhị phân. </span><br style="font-weight: bold;">
+<span style="font-weight: bold;">5.&nbsp; Viết chương trình đọc một
+file nhị phân chứa các số nguyên (số lượng số nguyên không biết trước)
+cách nhau bởi ký tự trống, và in ra tổng các số.</span><br>
+<br>
+</div>
+
+<ul style="margin-left: 40px;">
+
+</ul>
+
+<div style="margin-left: 40px;"><br>
+</div>
+
+<!-- ======================================================================================== -->
+</body></html>

@@ -1,0 +1,1168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html><head>
+<!-- saved from url=(0057)http://personales.unican.es/corcuerp/java/Labs/LAB_21.htm -->
+  
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>LAB-21: Java Serialization</title>
+
+  
+  
+  <link rel="stylesheet" type="text/css" href="./LAB-21_%20Java%20Serialization_files/netbeans.css">
+
+  
+  <meta content="text/css" http-equiv="Content-Style-Type">
+
+  
+  <meta name="keywords" content="NetBeans, IDE, Java">
+
+  
+  <meta name="author" content="Pedro Corcuera">
+
+  
+  <style type="text/css">
+#search {
+	HEIGHT: 100%
+}
+#topmodule {
+	align: right
+}
+  </style>
+</head><body>
+<br>
+
+<h1 style="text-align: center;">Java Serialization<br>
+</h1>
+
+<br>
+
+<span style="font-weight: bold;"><br>
+Môn học: Lập trình mạng</span><br style="font-weight: bold;">
+
+<span style="font-weight: bold;">Giảng viên: TS. Nguyễn Trọng Khánh </span><br>
+
+<br>
+
+<p style="margin-left: 40px;">Tuần tự hoá (serialization) đối tượng là
+tiến trình lưu trạng thái của đối tượng thành một chuỗi các byte; cung
+như tiến trình xây dựng lại những byte này thành đối tượng. Java
+Serialization API cung cấp các phương thức chuẩn cho các nhà phát triển
+thực hiện tuần tự hoá đối tượng.<br>
+</p>
+
+<div class="indent"><br>
+<h3 class="tutorial">Resources<br>
+</h3>
+<ul>
+  <li><a href="http://java.sun.com/developer/technicalArticles/Programming/serialization/">Discover
+the secrets of the Java Serialization API</a> article from java.sun.com
+  </li>
+  <li><a href="http://java.sun.com/j2se/1.5.0/docs/guide/serialization/">Object
+Serialization tutorial</a> from java.sun.com </li>
+  <li><a href="http://www.mactech.com/articles/mactech/Vol.14/14.04/JavaSerialization/index.html">Java
+Serialization tutorial</a> from mactech.com <br>
+  </li>
+</ul>
+<h3 class="tutorial"><a name="Tutorial_Exercises"></a>Exercises</h3>
+<ul>
+  <li><a href="LAB_21.html#Exercise_1">Exercise
+1: Serialize and deserialize an object</a><br>
+  </li>
+  <li><a href="LAB_21.html#Exercise_2">Exercise
+2: Customizing default protocol </a><br>
+  </li>
+  <li><a href="LAB_21.html#Exercise_3">Exercise
+3: Buffered stream </a> </li>
+  <li><a href="LAB_21.html#Homework">Luyện
+tập </a> </li>
+</ul>
+</div>
+
+<!-- ===================================================================================== -->
+<h2><a name="Exercise_1"></a>Exercise 1: Serialize and Deserialize an
+object<br>
+</h2>
+
+<div style="margin-left: 40px;"><br>
+Trong bài lab này, chúng ta sẽ làm quen với tuần tự hoá (serialization)
+và thôi tuần tự hoá (deserialization) một đối tượng, cũng như cách dùng
+từ khoá transient.<br>
+<ol>
+  <li><a href="LAB_21.html#1.1">Serialize
+the current time</a> </li>
+  <li><a href="LAB_21.html#1.2">Use
+transient keyword</a><br>
+  </li>
+</ol>
+</div>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.1"></a>(1.1)
+Tuần tự hoá thời điểm hiện tại<br>
+</h3>
+
+<div style="margin-left: 40px;">
+0. Khởi động NetBeans IDE.<br>
+1. Tạo mới một project&nbsp; NetBeans <br>
+<ul>
+  <li>Chọn <span style="font-weight: bold;">File</span>-&gt;<span style="font-weight: bold;">New Project (Ctrl+Shift+N)</span>. <br>
+  </li>
+  <li>Cửa sổ <span style="font-weight: bold;">New Project</span> xuất
+hiện </li>
+  <li>Tại pane <span style="font-weight: bold;">Choose Project</span>,
+chon&nbsp; <span style="font-weight: bold;">Java </span>trong<span style="font-weight: bold;">&nbsp;</span> <span style="font-weight: bold;">Categories </span>và&nbsp; <span style="font-weight: bold;">Java Application</span> trong <span style="font-weight: bold;">Projects</span>. <br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Next</span>. </li>
+</ul>
+<ul>
+  <li>Tại pane <span style="font-weight: bold;">Name and Location</span>,
+với trường <span style="font-weight: bold;">Project Name</span>, gõ
+tên project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">SerializeAndDeserializeCurrrentTime</span></span>
+  </li>
+  <li>Với trường <span style="font-weight: bold;">Create Main Class</span>,
+gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">SerializeTime</span></span>. <br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Finish</span>. </li>
+</ul>
+<br>
+<img style="width: 737px; height: 507px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte2.png"><br>
+<ul>
+  <li>Project <span style="font-weight: bold;">SerializeAndDeserializeCurrrentTime</span>
+và file <span style="font-weight: bold;">SerializeTime.java</span>
+xuất hiện trong editor nguồn của IDE NetBeans.&nbsp; </li>
+</ul>
+2. Sửa file&nbsp; <span style="font-weight: bold;">SerializeTime.java</span>
+như đoạn Code-1.11.&nbsp; Chú ý nhưng dòng code in đỏ. <br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><span style="font-weight: bold;">import
+java.io.ObjectOutputStream;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">import java.io.FileOutputStream;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">import java.io.IOException;</span><br>
+      <br>
+public class SerializeTime{<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String [] args){<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">String filename = "time.ser";</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+if(args.length &gt; 0) {</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+filename = args[0];</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp;&nbsp; //
+Create an object</span><br style="color: rgb(255, 0, 0); font-weight: bold;">
+      <span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+PersistentTime time = new PersistentTime();</span><br style="color: rgb(255, 0, 0);">
+      <span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span><br style="color: rgb(255, 0, 0);">
+      <span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp; // Serialize
+the object instance and save it in</span><br style="color: rgb(255, 0, 0); font-weight: bold;">
+      <span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// a file.</span><br style="color: rgb(255, 0, 0);">
+      <span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span><span style="color: rgb(255, 0, 0); font-weight: bold;">FileOutputStream
+fos = null;</span><br style="color: rgb(255, 0, 0); font-weight: bold;">
+      <span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ObjectOutputStream out = null;</span><br style="color: rgb(255, 0, 0);">
+      <span style="color: rgb(255, 0, 0);">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span><span style="color: rgb(255, 0, 0); font-weight: bold;"> try {</span><br style="color: rgb(255, 0, 0); font-weight: bold;">
+      <span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fos = new FileOutputStream(filename);</span><br style="color: rgb(255, 0, 0); font-weight: bold;">
+      <span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out = new ObjectOutputStream(fos);</span><br style="color: rgb(255, 0, 0); font-weight: bold;">
+      <span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.writeObject(time);</span><br style="color: rgb(255, 0, 0); font-weight: bold;">
+      <span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.close();</span><br style="color: rgb(255, 0, 0); font-weight: bold;">
+      <span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+} catch(IOException ex) {</span><br style="color: rgb(255, 0, 0); font-weight: bold;">
+      <span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ex.printStackTrace();</span><br style="color: rgb(255, 0, 0); font-weight: bold;">
+      <span style="color: rgb(255, 0, 0); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</span><br>
+      <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">System.out.println("Current time is saved
+into " + filename);</span><br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-1.11: SerializeTime.java<br>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte3.png"><br>
+<br>
+3. Viết lớp <span style="font-weight: bold;">PersistentTime.java</span>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.Serializable;<br>
+import java.util.Date;<br>
+import java.util.Calendar;<br>
+      <br>
+      <span style="font-weight: bold;">public class PersistentTime
+implements Serializable{</span><br>
+&nbsp;&nbsp;&nbsp; private Date time;<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public PersistentTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time =
+Calendar.getInstance().getTime();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public Date getTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return time;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte4.png"><br>
+<br>
+3. Viết lớp <span style="font-weight: bold;">DeserializeTime.java</span>.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.ObjectInputStream;<br>
+import java.io.FileInputStream;<br>
+import java.io.IOException;<br>
+import java.util.Calendar;<br>
+      <br>
+public class DeserializeTime {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String [] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; String filename = "time.ser";<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if(args.length &gt; 0) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+filename = args[0];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// Deserialize the previously saved </span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// PersistentTime object instance.</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+PersistentTime time = null;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FileInputStream fis = null;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ObjectInputStream in = null;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+try {</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fis = new FileInputStream(filename);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in = new ObjectInputStream(fis);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+time = (PersistentTime)in.readObject();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in.close();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+} catch(IOException ex) {</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ex.printStackTrace();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+} catch(ClassNotFoundException ex) {</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ex.printStackTrace();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}</span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // print out restored time<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("Previously serialized time: " + time.getTime());<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // print out the current time<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; System.out.println("Current
+time: " + Calendar.getInstance().getTime());<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte5.png"><br>
+<br>
+4. Biên dịch và chạy phần Serialization<br>
+<ul>
+  <li>Click chuột phải lên&nbsp; <span style="font-weight: bold;">SerializeTime.java
+    </span>và chọn <span style="font-weight: bold;">Run File.</span> </li>
+</ul>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte6.png"><br>
+<ul>
+  <li>Nghiên cứu kết quả trong cửa sổ <span style="font-weight: bold;">Output</span>.
+(Figure-1.13) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Current time is saved into
+time.ser<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-1.13: Result of running SerializeAndDeserializeCurrrentTime
+application<br>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte7.png"><br>
+<span style="color: rgb(51, 51, 255); font-weight: bold;"></span><br>
+5. Biên dịch và chạy Deserialization.<br>
+<ul>
+  <li>Click chuột phải lên file <span style="font-weight: bold;">DeserializeTime.java
+    </span>và chọn <span style="font-weight: bold;">Run File.</span> </li>
+</ul>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte8.png"><br>
+<ul>
+  <li>Quan sát kết quả trong cửa sổ <span style="font-weight: bold;">Output</span>.
+(Figure-1.13) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Previously serialized time: Mon
+Feb 26 01:57:16 EST 2007<br>
+Current time: Mon Feb 26 01:58:58 EST 2007<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-1.13: Result of running SerializeAndDeserializeCurrrentTime
+application<br>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte9.png"><br>
+<br>
+<br>
+5. Luyện tập.<br>
+<ul>
+  <li>Thêm trường mới <span style="font-weight: bold;">myName</span>
+kiểu <span style="font-weight: bold;">String</span> cho lớp
+PersistentTime.<br>
+  </li>
+  <li>Sửa file SerializeTime.java and DeserializeTime.java để hiện thị
+trường <span style="font-weight: bold;">myName</span>.<br>
+  </li>
+</ul>
+</div>
+
+<div style="margin-left: 40px;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_21.html#Exercise_1">return
+to top of the exercise</a><br>
+<br>
+</div>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="1.2"></a>(1.2)
+Sửa dụng từ khoá transient<br>
+</h3>
+
+<div style="margin-left: 40px;"><br>
+1. Sửa <span style="font-weight: bold;">PersistentTime.java </span>như
+Code-1.11. <br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.Serializable;<br>
+import java.util.Date;<br>
+import java.util.Calendar;<br>
+      <br>
+public class PersistentTime implements Serializable{<br>
+&nbsp;&nbsp;&nbsp; <span style="color: rgb(51, 51, 255); font-weight: bold;">transient</span>
+private Date time;<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public PersistentTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time =
+Calendar.getInstance().getTime();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public Date getTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return time;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-1.11: SerializeTime.java<br>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte10.png"><br>
+<br>
+2. Biên dịch và chạy Serialization
+<ul>
+  <li>Click Chuột phải vào <span style="font-weight: bold;">SerializeTime.java
+    </span> và chọn Run.</li>
+  <li>Xem kết quả xuất hiện trong cửa sổ <span style="font-weight: bold;">Output</span>. (Figure-1.13) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Current time is saved into
+time.ser<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-1.13: Result of running SerializeAndDeserializeCurrrentTime
+application<br>
+<span style="color: rgb(51, 51, 255); font-weight: bold;"></span><br>
+3. Biên dịch và chạy Serialization
+<ul>
+  <li>Click Chuột phải vào <span style="font-weight: bold;">DeserializeTime.java</span><span style="font-weight: bold;"> </span> và chọn Run.</li>
+  <li>Xem kết quả xuất hiện trong cửa sổ <span style="font-weight: bold;">Output</span>. (Figure-1.13) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><span style="font-weight: bold;">Previously
+serialized time: null</span><br>
+Current time: Mon Feb 26 02:07:09 EST 2007<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-1.13: Result of running SerializeAndDeserializeCurrrentTime
+application<br>
+<br>
+<span style="color: rgb(51, 51, 255); font-weight: bold;"><img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte11.png"><br>
+</span><br>
+<br>
+4. Luyện tập thêm: <br>
+<ul>
+  <li>Thêm trường <span style="font-weight: bold;">myName</span> với
+từ khoá transient.<br>
+  </li>
+  <li>Test với trường vừa thêm.<br>
+  </li>
+</ul>
+<br>
+</div>
+
+<h3 style="margin-left: 40px;" class="tutorial">Summary<br>
+</h3>
+
+<div style="margin-left: 40px;"><br>
+Trong bài lab này, chúng ta đã làm quen với tuần tự hoá (serialization)
+và thôi tuần tự hoá (deserialization) một đối tượng, cũng như cách dùng
+từ khoá transient.<br>
+</div>
+
+<div style="margin-left: 40px;"><br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+<a href="LAB_21.html#Tutorial_Exercises">return
+to the top</a><br>
+</div>
+
+<br>
+
+<br>
+
+<h2><a name="Exercise_2"></a>Exercise 2: Version Control<br>
+</h2>
+
+<p style="margin-left: 40px;">Trong bài lab này, chúng ta sẽ học cách
+để kiểm tra phiên bản (version control).</p>
+
+<ol>
+
+  <ol>
+    <li><a href="LAB_21.html#2.1">Sửa
+lớp sau khi tuần tự hoá</a> </li>
+    <li><a href="LAB_21.html#2.2">Sử
+dụng id phiên bản duy nhất</a><br>
+    </li>
+  </ol>
+</ol>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.1"></a>(2.1)
+Sửa lớp sau khi tuần tự hoá<br>
+</h3>
+
+<div style="margin-left: 40px;"><br>
+1. Biên dịch và chạy phần Serialization. <br>
+<ul>
+  <li>Click chuột phải lên <span style="font-weight: bold;">SerializeTime.java
+    </span>và chọn <span style="font-weight: bold;">Run File.</span> </li>
+  <li>Quan sát kết quả trong cửa sổ <span style="font-weight: bold;">Output</span>.
+(Figure-2.10) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Current time is saved into
+time.ser<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-2.10: Result <br>
+<br>
+2. Sửa file <span style="font-weight: bold;">PersistentTim.java </span>như
+trong Code-2.11.&nbsp; Thêm trường mới trong lớp <span style="font-weight: bold;">PersistentTime </span>sau khi tuần tự hoá.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.Serializable;<br>
+import java.util.Date;<br>
+import java.util.Calendar;<br>
+      <br>
+public class PersistentTime implements Serializable{<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; <span style="color: rgb(0, 0, 153); font-weight: bold;">private Date time;</span><br>
+&nbsp;&nbsp;&nbsp; <span style="color: rgb(51, 51, 255); font-weight: bold;">private String
+aNewField;</span><br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public PersistentTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time =
+Calendar.getInstance().getTime();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public Date getTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return time;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-2.11: FileReaderWriter.java<br>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte12.png"><br>
+<br>
+3. Biên dịch PersistentTime.java.<br>
+<ul>
+  <li>Click chuột phải lên <span style="font-weight: bold;">PersistentTime.java</span>
+và chọn <span style="font-weight: bold;">Compile File</span>. </li>
+</ul>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte13.png"><br>
+<br>
+4. Biên dịch và chạy Deserialization
+<ul>
+  <li>Click Chuột phải vào <span style="font-weight: bold;">DeserializeTime</span><span style="font-weight: bold;">.java </span> và chọn Run.</li>
+  <li>Ngoại lệ <span style="font-weight: bold;">java.io.InvalidClassException
+    </span>xuất hiện trong cửa sổ <span style="font-weight: bold;">Output</span>.
+(Figure-2.12 below) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">java.io.InvalidClassException:
+PersistentTime; local class incompatible: stream classdesc
+serialVersionUID = -3126998878902358585, local class serialVersionUID =
+-5560460247034149373<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; at
+java.io.ObjectStreamClass.initNonProxy(ObjectStreamClass.java:519)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; at
+java.io.ObjectInputStream.readNonProxyDesc(ObjectInputStream.java:1546)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; at
+java.io.ObjectInputStream.readClassDesc(ObjectInputStream.java:1460)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; at
+java.io.ObjectInputStream.readOrdinaryObject(ObjectInputStream.java:1693)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; at
+java.io.ObjectInputStream.readObject0(ObjectInputStream.java:1299)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; at
+java.io.ObjectInputStream.readObject(ObjectInputStream.java:339)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; at
+DeserializeTime.main(DeserializeTime.java:23)<br>
+Exception in thread "main" java.lang.NullPointerException<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<span style="color: rgb(0, 0, 0);">Figure-2.12: </span>java.io.InvalidClassException
+exception<br>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte14.png"><br>
+<span style="color: rgb(0, 0, 0);"><br>
+<br>
+</span></div>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="2.2"></a>(2.2)
+Use a version id<br>
+</h3>
+
+<div style="margin-left: 40px;"><span style="color: rgb(0, 0, 0);"><br>
+1. </span>Sửa file <span style="font-weight: bold;">PersistentTim.java
+</span>như trong<span style="font-weight: bold;"> </span>Code-2.11.&nbsp;
+Thêm id duy nhất cho lớp.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.Serializable;<br>
+import java.util.Date;<br>
+import java.util.Calendar;<br>
+      <br>
+public class PersistentTime implements Serializable{<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">static final long
+serialVersionUID = -3126998878902358585L;</span><br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; private Date time;<br>
+&nbsp;&nbsp;&nbsp; private String aNewField;<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public PersistentTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time =
+Calendar.getInstance().getTime();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public Date getTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return time;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+      <td style="vertical-align: top;"><br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-2.21: Assign a unique version id to the class file<br>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte15.png"><br>
+<br>
+2. Biên dịch <span style="font-weight: bold;">PersistentTime.java</span>.<br>
+<ul>
+  <li>Click chuột phải PersistentTime.java và chọn Compile File. <br>
+  </li>
+</ul>
+3. Biên dịch và chạy Serialization
+<ul>
+  <li>Click Chuột phải vào <span style="font-weight: bold;">SerializeTime.</span><span style="font-weight: bold;">java </span> và chọn Run.</li>
+  <li>Xem xét kết quả trong cửa sổ <span style="font-weight: bold;">Output</span>.
+(Figure-1.13) </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Current time is saved into
+time.ser<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-1.13: Result of running SerializeAndDeserializeCurrrentTime
+application<br>
+<span style="color: rgb(51, 51, 255); font-weight: bold;"></span><br>
+4. 2. Sửa file <span style="font-weight: bold;">PersistentTim.java </span>như
+trong Code-2.11.&nbsp; Thêm trường mới trong lớp <span style="font-weight: bold;">PersistentTime </span>sau khi tuần tự hoá.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.Serializable;<br>
+import java.util.Date;<br>
+import java.util.Calendar;<br>
+      <br>
+public class PersistentTime implements Serializable{<br>
+      <br>
+&nbsp;&nbsp;&nbsp; static final long serialVersionUID =
+-3126998878902358585L;<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; private Date time;<br>
+&nbsp;&nbsp;&nbsp; private String aNewField;<br>
+&nbsp;&nbsp;&nbsp; <span style="font-weight: bold;">private String
+aNewNewField;</span><br>
+      <br>
+&nbsp;&nbsp;&nbsp; public PersistentTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; time =
+Calendar.getInstance().getTime();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+      <br>
+&nbsp;&nbsp;&nbsp; public Date getTime() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return time;<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-2.11: FileReaderWriter.java<br>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte16.png"><br>
+<br>
+5. Biên dịch <span style="font-weight: bold;">PersistentTime.java</span>.<br>
+<ul>
+  <li>Click chuột phải PersistentTime.java và chọn Compile File. </li>
+</ul>
+6. Biên dịch và chạy Deserialization
+<ul>
+  <li>Click Chuột phải vào <span style="font-weight: bold;">DeserializeTime</span><span style="font-weight: bold;">.java </span> và chọn Run.</li>
+  <li>Xem xét kết quả&nbsp;<span style="font-weight: bold;"> </span>xuất
+hiện trong cửa sổ <span style="font-weight: bold;">Output</span>.</li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">Previously serialized time: Mon
+Feb 26 03:04:59 EST 2007<br>
+Current time: Mon Feb 26 03:05:13 EST 2007<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+<span style="color: rgb(0, 0, 0);">Figure-2.23: Result<br>
+<br>
+<img style="width: 785px; height: 757px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte17.png"><br>
+</span><br>
+<br>
+<br>
+&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_21.html#Exercise_2">return
+to top of the exercise</a><br>
+<br>
+</div>
+
+<h3 style="margin-left: 40px;" class="tutorial">Summary</h3>
+
+<p style="margin-left: 40px;">Trong bài lab này, chúng ta sẽ học cách
+để kiểm tra phiên bản (version control) trong tuần tự hoá và thôi tuần
+tự hoá của một đối tượng.<br>
+</p>
+
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; <a href="LAB_21.html#Tutorial_Exercises">return
+to the top</a><br>
+
+<br>
+
+<br>
+
+<h2><a name="Exercise_3"></a>Exercise 3: Customizing default protocol<br>
+</h2>
+
+<p style="margin-left: 40px;">Trong bài lab này, chúng ta sẽ học cách
+tạo phương thức readObject() và writeObject() riêng.<br>
+</p>
+
+<ol>
+
+  <ol>
+    <li><a href="LAB_21.html#3.1">Sử
+dụng phương thức readObject() và writeObject()mặc định</a> </li>
+    <li><a href="LAB_21.html#3.2">Sử
+dụng phương thức readObject() và writeObject() riêng </a><br>
+    </li>
+  </ol>
+</ol>
+
+<br>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.1"></a>(3.1)
+Sử dụng phương thức readObject() và writeObject() mặc định<br>
+</h3>
+
+<br>
+
+<div style="margin-left: 40px;">1. Tạo mới một project&nbsp; NetBeans <br>
+<ul>
+  <li>Chọn <span style="font-weight: bold;">File</span>-&gt;<span style="font-weight: bold;">New Project (Ctrl+Shift+N)</span>. <br>
+  </li>
+  <li>Cửa sổ <span style="font-weight: bold;">New Project</span> xuất
+hiện </li>
+  <li>Tại pane <span style="font-weight: bold;">Choose Project</span>,
+chon&nbsp; <span style="font-weight: bold;">Java </span>trong<span style="font-weight: bold;">&nbsp;</span> <span style="font-weight: bold;">Categories </span>và&nbsp; <span style="font-weight: bold;">Java Application</span> trong <span style="font-weight: bold;">Projects</span>. <br>
+  </li>
+  <li>Click <span style="font-weight: bold;">Next</span>. </li>
+</ul>
+<ul>
+  <li>Tại pane <span style="font-weight: bold;">Name and Location</span>,
+với trường <span style="font-weight: bold;">Project Name</span>, gõ
+tên project <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">SerializeAnimationThreadNotStarted</span></span><span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);"></span></span>
+  </li>
+  <li>Với trường <span style="font-weight: bold;">Create Main Class</span>,
+gõ <span style="font-weight: bold;"><span style="color: rgb(51, 51, 255);">SerializeAnimationThreadNotStarted</span></span>.
+  </li>
+  <li>Click <span style="font-weight: bold;">Finish</span>. </li>
+</ul>
+<img style="width: 737px; height: 507px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte18.png"><br>
+<ul>
+  <li>Project <span style="font-weight: bold;">SerializeAnimationThreadNotStarted</span>
+và file <span style="font-weight: bold;">SerializeAnimationThreadNotStarted</span><span style="font-weight: bold;">.java</span> xuất hiện trong editor nguồn
+của IDE NetBeans.&nbsp; </li>
+</ul>
+2. Sửa file&nbsp; <span style="font-weight: bold;">SerializeAnimationThreadNotStarted</span><span style="font-weight: bold;">.java</span> như đoạn Code-3.11.&nbsp; Chú
+ý nhưng dòng code in đậm.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">import java.io.FileInputStream;<br>
+import java.io.FileOutputStream;<br>
+import java.io.IOException;<br>
+import java.io.ObjectInputStream;<br>
+import java.io.ObjectOutputStream;<br>
+      <br>
+public class SerializeAnimationThreadNotStarted {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public static void main(String[] args) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Create an object instance<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; PersistentAnimation a = new
+PersistentAnimation(1);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; // Serialize the object<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; FileOutputStream fos = null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ObjectOutputStream out =
+null;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; try {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fos
+= new FileOutputStream("serializedfile");<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; out
+= new ObjectOutputStream(fos);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.writeObject(a);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.close();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; } catch(IOException ex) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ex.printStackTrace();<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <br>
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// Deserialize the object.&nbsp; The problem is that the</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// PersistentAnimation thread does not get started</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// automatically after the deserialization since its </span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// constructor method does not get called when the </span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// serialized object is deserialized.&nbsp; This is why</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// the PersistentAnimation class has to have its own</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// readObject() method in which the thread is </span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// explicitly started.</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+PersistentAnimation b = null;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+FileInputStream fis = null;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ObjectInputStream in = null;</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+try {</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+fis = new FileInputStream("serializedfile");</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in = new ObjectInputStream(fis);</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+b = (PersistentAnimation)in.readObject();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in.close();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+} catch(IOException ex) {</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ex.printStackTrace();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+} catch(ClassNotFoundException ex) {</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ex.printStackTrace();</span><br style="font-weight: bold;">
+      <span style="font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span><br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; <br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-3.11: SerializeAnimationThreadNotStarted.java<br>
+<br>
+<img style="width: 785px; height: 826px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte19.png"><br>
+<br>
+3. Tạo lớp <span style="font-weight: bold;">PersistentAnimation.java</span>
+như&nbsp; Code-3.12.&nbsp; <br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><span style="font-weight: bold;"></span>import
+java.io.Serializable;<br>
+      <br>
+public class PersistentAnimation implements Serializable, Runnable {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; transient private Thread animator;<br>
+&nbsp;&nbsp;&nbsp; private int animationSpeed;<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public PersistentAnimation(int animationSpeed) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.animationSpeed =
+animationSpeed;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; animator = new Thread(this);<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; animator.start();<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public void run() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("PersistentAnimation thread is started");<br>
+&nbsp;&nbsp;&nbsp; }<br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-3.12: PersistentAnimation.java<br>
+<br>
+<img style="width: 785px; height: 764px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte20.png"><br>
+<br>
+4. Biên dịch và chạy project<br>
+<ul>
+  <li>Click chuột phải lên project <span style="font-weight: bold;">SerializeAnimationThreadNotStarted
+    </span>và chọn <span style="font-weight: bold;">Run</span>. </li>
+</ul>
+<img style="width: 785px; height: 764px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte21.png"><br>
+<ul>
+  <li>Xem xét kết quả trong cửa sổ <span style="font-weight: bold;">Output</span>.
+(Figure-3.13)&nbsp; Thread không tự động bắt đầu khi đối tượng được
+thôi tuần tự hoá.<br>
+  </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">PersistentAnimation thread is
+started<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-3.13: Result of running SerializeAnimationThreadNotStarted
+application<br>
+<br>
+<img style="width: 785px; height: 764px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte22.png"><br>
+<br>
+<br>
+<br>
+</div>
+
+<div style="margin-left: 40px;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_21.html#Exercise_3">return
+to top of the exercise</a><br>
+<br>
+</div>
+
+<h3 style="margin-left: 40px;" class="tutorial"><a name="3.2"></a>(3.2)
+Sử dụng&nbsp; readObject() and writeObject() riêng<br>
+</h3>
+
+<br>
+
+<div style="margin-left: 40px;">1. Sửa&nbsp; <span style="font-weight: bold;">PersistentAnimation.java</span> như dưới
+Code-3.21.&nbsp; Phần sửa được in đậm màu xanh.<br>
+<br>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;"><span style="font-weight: bold;"></span>import
+java.io.IOException;<br>
+import java.io.ObjectInputStream;<br>
+import java.io.ObjectOutputStream;<br>
+import java.io.Serializable;<br>
+      <br>
+public class PersistentAnimation implements Serializable, Runnable {<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; transient private Thread animator;<br>
+&nbsp;&nbsp;&nbsp; private int animationSpeed;<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public PersistentAnimation(int animationSpeed) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; this.animationSpeed =
+animationSpeed;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span style="color: rgb(51, 51, 255); font-weight: bold;">startAnimation();</span><br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; <br>
+&nbsp;&nbsp;&nbsp; public void run() {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+System.out.println("PersistentAnimation thread is started");<br>
+&nbsp;&nbsp;&nbsp; }<br>
+&nbsp;&nbsp;&nbsp; <br>
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;
+// Provide your own writeObject method</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;
+private void writeObject(ObjectOutputStream out) throws IOException {</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+out.defaultWriteObject();</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;
+}</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;
+      </span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;
+// Provide your own readObject method</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;
+private void readObject(ObjectInputStream in) throws IOException,
+ClassNotFoundException {</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// our "pseudo-constructor"</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+in.defaultReadObject();</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+// now we are a "live" object again, so let's run rebuild and start</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+startAnimation();</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      </span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;
+}</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;
+      </span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;
+private void startAnimation() {</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+animator = new Thread(this);</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+animator.start();</span><br style="color: rgb(51, 51, 255); font-weight: bold;">
+      <span style="color: rgb(51, 51, 255); font-weight: bold;">&nbsp;&nbsp;&nbsp;
+}</span><br>
+}<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Code-3.21: PersistentAnimation.java<br>
+<br>
+<img style="width: 785px; height: 804px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte23.png"><br>
+<br>
+2. Biên dịch và chạy project
+<ul>
+  <li>Click chuột phải vào <span style="font-weight: bold;">SerializeAnimationThreadStarted</span><span style="font-weight: bold;"> </span> và chọn Run.</li>
+  <li>Xem xét kết quả&nbsp;<span style="font-weight: bold;"> </span>xuất
+hiện trong cửa sổ <span style="font-weight: bold;">Output</span>.
+Thread tự động bắt đầu khi đối tượng được thôi tuần tự hoá. </li>
+</ul>
+<table style="text-align: left; width: 100%;" border="1" cellpadding="2" cellspacing="2">
+  <tbody>
+    <tr>
+      <td style="vertical-align: top;">PersistentAnimation thread is
+started<br>
+PersistentAnimation thread is started<br>
+      </td>
+    </tr>
+  </tbody>
+</table>
+Figure-3.22: Result of running SerializeAnimationThreadStarted
+application<br>
+<br>
+<img style="width: 785px; height: 804px;" alt="" src="./LAB-21_%20Java%20Serialization_files/1_byte24.png"><br>
+<br>
+<br>
+</div>
+
+<div style="margin-left: 40px;">&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;
+&nbsp;&nbsp;&nbsp; &nbsp;&nbsp; <a href="LAB_21.html#Exercise_3">return
+to top of the exercise</a><br>
+</div>
+
+<div style="margin-left: 40px;"><br>
+<br>
+</div>
+
+<h3 style="margin-left: 40px;" class="tutorial">Summary</h3>
+
+<div style="margin-left: 40px;"><br>
+Trong bài lab này, chúng ta đã học cách sử dụng và tạo phương thức
+readObject() và writeObject() riêng.<br>
+<br>
+<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+&nbsp; <a href="LAB_21.html#Tutorial_Exercises">return
+to the top</a><br>
+<br>
+<br>
+<br>
+</div>
+
+<h2><a name="Homework"></a>Luyện tập <br>
+</h2>
+
+<br>
+
+<div style="margin-left: 40px; font-weight: bold;">1. Tạo project
+SerializeTime:&nbsp; </div>
+
+<ul style="margin-left: 40px; font-weight: bold;">
+
+  <li>Viết lớp MyClassToBePersisted.java, với các trường:&nbsp; <br>
+    <ul>
+      <li>String name </li>
+      <li>int age </li>
+      <li>String hobby </li>
+    </ul>
+    <ul>
+      <li>String nameOfSchool </li>
+      <li>int yearStarted ( transient ) </li>
+    </ul>
+  </li>
+</ul>
+
+<ul style="margin-left: 40px; font-weight: bold;">
+
+  <li>Viết lớp SerializeMyClassToBePersisted.java, để tạo một thực thể
+của lớp MyClassToBePersisted và tuần tự hoá nó trong phương thức main. </li>
+  <li> Viết lớp DeserializeMyClassToBePersisted.java, để đọc file ở mục
+trước và thôi tuần tự hoá thực thể của lớp MyClassToBePersisted trong
+phương thức main. <br>
+  </li>
+  <li>Sửa lớp MyClassToBePersisted.java, để chứa version control.</li>
+</ul>
+
+<ul>
+
+</ul>
+
+<div style="margin-left: 40px;"><br>
+</div>
+
+<!-- ======================================================================================== -->
+</body></html>

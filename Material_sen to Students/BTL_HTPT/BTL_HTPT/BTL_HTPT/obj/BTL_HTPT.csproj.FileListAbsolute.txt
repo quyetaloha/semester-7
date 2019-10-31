@@ -1,0 +1,9 @@
+C:\Users\DUCTHANH\Documents\Visual Studio 2005\Projects\BTL_HTPT\BTL_HTPT\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\DUCTHANH\Documents\Visual Studio 2005\Projects\BTL_HTPT\BTL_HTPT\obj\Debug\BTL_HTPT.Form1.resources
+C:\Users\DUCTHANH\Documents\Visual Studio 2005\Projects\BTL_HTPT\BTL_HTPT\obj\Debug\BTL_HTPT.Properties.Resources.resources
+C:\Users\DUCTHANH\Documents\Visual Studio 2005\Projects\BTL_HTPT\BTL_HTPT\obj\Debug\BTL_HTPT.csproj.GenerateResource.Cache
+C:\Users\DUCTHANH\Documents\Visual Studio 2005\Projects\BTL_HTPT\BTL_HTPT\bin\Debug\BTL_HTPT.exe.config
+C:\Users\DUCTHANH\Documents\Visual Studio 2005\Projects\BTL_HTPT\BTL_HTPT\bin\Debug\BTL_HTPT.exe
+C:\Users\DUCTHANH\Documents\Visual Studio 2005\Projects\BTL_HTPT\BTL_HTPT\bin\Debug\BTL_HTPT.pdb
+C:\Users\DUCTHANH\Documents\Visual Studio 2005\Projects\BTL_HTPT\BTL_HTPT\obj\Debug\BTL_HTPT.exe
+C:\Users\DUCTHANH\Documents\Visual Studio 2005\Projects\BTL_HTPT\BTL_HTPT\obj\Debug\BTL_HTPT.pdb

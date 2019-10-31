@@ -1,0 +1,62 @@
+11-Sep-2018 12:51:04.827 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version:        Apache Tomcat/8.5.32
+11-Sep-2018 12:51:04.921 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Jun 20 2018 19:50:35 UTC
+11-Sep-2018 12:51:04.921 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server number:         8.5.32.0
+11-Sep-2018 12:51:04.921 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 8.1
+11-Sep-2018 12:51:04.921 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            6.3
+11-Sep-2018 12:51:04.921 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+11-Sep-2018 12:51:04.921 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk1.8.0_131\jre
+11-Sep-2018 12:51:04.921 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_131-b11
+11-Sep-2018 12:51:04.921 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+11-Sep-2018 12:51:04.921 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\DUCTHANH\Documents\apache-tomcat-8.5
+11-Sep-2018 12:51:04.921 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Users\DUCTHANH\Documents\apache-tomcat-8.5
+11-Sep-2018 12:51:04.921 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\conf\logging.properties
+11-Sep-2018 12:51:04.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+11-Sep-2018 12:51:04.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dhttp.nonProxyHosts=localhost|127.0.0.1|THANH
+11-Sep-2018 12:51:04.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+11-Sep-2018 12:51:04.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+11-Sep-2018 12:51:04.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+11-Sep-2018 12:51:04.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\DUCTHANH\Documents\apache-tomcat-8.5
+11-Sep-2018 12:51:04.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Users\DUCTHANH\Documents\apache-tomcat-8.5
+11-Sep-2018 12:51:04.937 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\temp
+11-Sep-2018 12:51:04.937 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent The APR based Apache Tomcat Native library which allows optimal performance in production environments was not found on the java.library.path: [C:\Program Files\Java\jdk1.8.0_131\bin;C:\WINDOWS\Sun\Java\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\ProgramData\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\Intel\WiFi\bin\;C:\Program Files\Common Files\Intel\WirelessCommon\;C:\Program Files\Java\jdk-10.0.1\bin;C:\Program Files\apache-maven-3.5.4\bin;C:\Program Files\Git\cmd;C:\Users\DUCTHANH\AppData\Local\Programs\Python\Python37\Scripts\;C:\Users\DUCTHANH\AppData\Local\Programs\Python\Python37\;.]
+11-Sep-2018 12:51:06.249 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+11-Sep-2018 12:51:06.999 INFO [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+11-Sep-2018 12:51:07.062 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["ajp-nio-8009"]
+11-Sep-2018 12:51:07.077 INFO [main] org.apache.tomcat.util.net.NioSelectorPool.getSharedSelector Using a shared selector for servlet write/read
+11-Sep-2018 12:51:07.077 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 5759 ms
+11-Sep-2018 12:51:07.249 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+11-Sep-2018 12:51:07.249 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet Engine: Apache Tomcat/8.5.32
+11-Sep-2018 12:51:07.327 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDescriptor Deploying configuration descriptor [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\conf\Catalina\localhost\baiTest1.xml]
+11-Sep-2018 12:51:07.515 WARNING [localhost-startStop-1] org.apache.catalina.startup.SetContextPropertiesRule.begin [SetContextPropertiesRule]{Context} Setting property 'antiJARLocking' to 'true' did not find a matching property.
+11-Sep-2018 12:51:10.577 INFO [localhost-startStop-1] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+11-Sep-2018 12:51:11.078 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDescriptor Deployment of configuration descriptor [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\conf\Catalina\localhost\baiTest1.xml] has finished in [3,735] ms
+11-Sep-2018 12:51:11.078 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\webapps\docs]
+11-Sep-2018 12:51:11.218 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\webapps\docs] has finished in [140] ms
+11-Sep-2018 12:51:11.218 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\webapps\examples]
+11-Sep-2018 12:51:13.937 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\webapps\examples] has finished in [2,719] ms
+11-Sep-2018 12:51:13.937 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\webapps\host-manager]
+11-Sep-2018 12:51:14.171 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\webapps\host-manager] has finished in [234] ms
+11-Sep-2018 12:51:14.171 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\webapps\manager]
+11-Sep-2018 12:51:14.390 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\webapps\manager] has finished in [219] ms
+11-Sep-2018 12:51:14.390 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\webapps\ROOT]
+11-Sep-2018 12:51:14.515 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\DUCTHANH\Documents\apache-tomcat-8.5\webapps\ROOT] has finished in [125] ms
+11-Sep-2018 12:51:14.531 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+11-Sep-2018 12:51:14.593 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["ajp-nio-8009"]
+11-Sep-2018 12:51:14.609 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 7535 ms
+11-Sep-2018 12:51:32.296 INFO [http-nio-8080-exec-3] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/baiTest1] has started
+11-Sep-2018 12:51:33.755 INFO [http-nio-8080-exec-3] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+11-Sep-2018 12:51:33.771 INFO [http-nio-8080-exec-3] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/baiTest1] is completed
+11-Sep-2018 12:53:05.336 INFO [http-nio-8080-exec-19] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/baiTest1] has started
+11-Sep-2018 12:53:06.258 INFO [http-nio-8080-exec-19] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+11-Sep-2018 12:53:06.305 INFO [http-nio-8080-exec-19] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/baiTest1] is completed
+11-Sep-2018 12:53:29.084 INFO [http-nio-8080-exec-12] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/baiTest1] has started
+11-Sep-2018 12:53:29.944 INFO [http-nio-8080-exec-12] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+11-Sep-2018 12:53:29.975 INFO [http-nio-8080-exec-12] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/baiTest1] is completed
+11-Sep-2018 12:53:35.321 INFO [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+11-Sep-2018 12:53:35.337 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+11-Sep-2018 12:53:35.462 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["ajp-nio-8009"]
+11-Sep-2018 12:53:35.633 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+11-Sep-2018 12:53:35.821 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+11-Sep-2018 12:53:35.821 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["ajp-nio-8009"]
+11-Sep-2018 12:53:35.837 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+11-Sep-2018 12:53:35.837 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["ajp-nio-8009"]

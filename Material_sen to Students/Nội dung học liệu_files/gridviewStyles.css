@@ -1,0 +1,89 @@
+﻿/* CSS cho gridview chinh trong trang admin */
+.grid
+{
+    border: solid 1px #f5f5f5;
+    color:#333333;
+    width:100%;
+    border-collapse:collapse;
+}
+.grid th, .grid td
+{
+    padding:5px;
+}
+.grid img
+{
+    border:none;
+}
+.grid_head
+{
+    background-color: #5d7b9d;
+    font-weight:bold;
+    color:#ffffff;
+}
+.grid_foot
+{
+    background-color: #5d7b9d;
+    font-weight:bold;
+    color:#ffffff;
+}
+.grid_item
+{
+    background-color: #f7f6f3;
+    color: #333333;
+    
+}
+.grid_item_alternating
+{
+    background-color: #e7e6e3;
+    color: #284775;
+}
+.grid_item > td, .grid_item_alternating > td
+{
+    border:solid 1px #ffffff;
+}
+.grid_selected
+{
+    background-color: #E2DED6;
+    font-weight:bold;
+    color:#333333;
+}
+.grid_edit
+{
+    background-color: #999999;
+}
+.grid_item:hover, .grid_item_alternating:hover
+{
+    background-color: #b6bcc9;
+}
+.grid_page
+{
+    font:bold 13px Arial,Sans-Serif;
+    background-color:#f5f5f5;
+}
+.grid_page>table
+{
+    width:100%;
+}
+.grid_page a
+{
+    border:solid 1px #2d2d2d;
+    background-color:#ffffee;
+    padding:4px;
+    text-decoration:none;
+}
+.grid_page span
+{
+    border:solid 1px #2d2d2d;
+    background-color:#ffffcc;
+    padding:5px;
+}
+/* CSS cho table search va filter trong trang amdin */
+.search_col1
+{
+    width: 100px;
+    text-align: right;
+}
+.search_col2
+{
+    width: 150px;
+}
